@@ -5,7 +5,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
-const MongoClient = require('mongodb').MongoClient;
+const MongoClient = new require('mongodb').MongoClient(process.env.DB, {
+  useUnifiedTopology: true
+});
 
 const apiRoutes = require('./routes/api.js');
 const fccTestingRoutes = require('./routes/fcctesting.js');
@@ -27,7 +29,7 @@ app.use(helmet());
 fccTestingRoutes(app);
 
 //Routing for API
-MongoClient.connect(process.env.DB, (err, db) => {
+MongoClient.connect(err => {
   if (err) {
     console.error('Database connection failed:', err);
     throw new Error('An error ocurred connecting to the database');
@@ -35,7 +37,7 @@ MongoClient.connect(process.env.DB, (err, db) => {
   console.info('Database connection established');
   app.all('*', (req, res, next) => {
     req.rootPath = process.cwd();
-    req.db = db;
+    req.db = MongoClient.db(process.env.DB_NAME);
     next();
   });
 

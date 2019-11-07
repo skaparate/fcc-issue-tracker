@@ -12,7 +12,6 @@ const MongoClient = new require('mongodb').MongoClient(process.env.DB, {
 const apiRoutes = require('./routes/api.js');
 const fccTestingRoutes = require('./routes/fcctesting.js');
 const runner = require('./test-runner');
-const path = require('path');
 
 const app = express();
 
@@ -35,13 +34,15 @@ MongoClient.connect(err => {
     throw new Error('An error ocurred connecting to the database');
   }
   console.info('Database connection established');
+  const db = MongoClient.db(process.env.DB_NAME);
+
   app.all('*', (req, res, next) => {
     req.rootPath = process.cwd();
-    req.db = MongoClient.db(process.env.DB_NAME);
+    req.db = db;
     next();
   });
 
-  app.use(apiRoutes());
+  apiRoutes(app);
 
   //404 Not Found Middleware
   app.use((req, res, next) => {
@@ -51,11 +52,22 @@ MongoClient.connect(err => {
       .send('Not Found');
   });
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 3100;
 
   //Start our server and tests!
   app.listen(port, function() {
     console.log(`Listening on port ${port}`);
+    db.collection('projects').createIndex(
+      {
+        name: 'text'
+      },
+      {
+        background: true,
+        unique: false,
+        sparse: false,
+        name: 'project_name_text'
+      }
+    );
     if (process.env.NODE_ENV === 'test') {
       console.log('Running Tests...');
       setTimeout(function() {

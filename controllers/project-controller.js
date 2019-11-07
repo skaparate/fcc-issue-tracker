@@ -1,157 +1,217 @@
 const ObjectID = require('mongodb').ObjectID;
+const slugify = require('underscore.string/slugify');
 
 class ProjectController {
   constructor(db) {
     this.db = db;
   }
 
-  list(projectName, done, filters = {}) {
-    if (!projectName) {
-      return done('no project specified');
-    }
-
-    if (filters.open) {
-      if (filters.open === 'true') {
-        filters.open = true;
-      } else {
-        filters.open = false;
-      }
-    }
-    const query = Object.assign(
-      {
-        project: projectName
-      },
-      filters
-    );
+  list(done, filters = {}) {
+    const query = Object.assign({}, filters);
     console.debug('Query:', query);
     this.db
-      .collection('issues')
-      .find(query)
+      .collection('projects')
+      .aggregate([
+        {
+          $match: query
+        },
+        {
+          $lookup: {
+            from: 'issues',
+            localField: '_id',
+            foreignField: 'projectId',
+            as: 'issues'
+          }
+        },
+        {
+          $addFields: {
+            issueCount: {
+              $size: {
+                $filter: {
+                  input: '$issues',
+                  as: 'issue',
+                  cond: {
+                    $eq: ['$$issue.open', true]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          $project: {
+            issues: false
+          }
+        }
+      ])
       .toArray()
       .then(result => {
         return done(null, result);
       })
       .catch(error => {
-        console.error('Failed to retrieve issue list:', error);
-        return done(`could not retrieve project '${projectName}' issues`);
+        console.error('Failed to retrieve project list:', error);
+        return done(`Could not retrieve project list`);
       });
   }
 
-  add(issue, done) {
-    console.debug(`add(issue) =>`, issue);
-    if (!issue.issue_title || !issue.issue_text || !issue.created_by) {
-      return done('not enough data');
-    }
-    issue.created_on = new Date();
-    issue.updated_on = new Date();
-    issue.open = true;
+  getBySlug(slug, done) {
     this.db
-      .collection('issues')
-      .insertOne(issue)
-      .then(createdIssue => {
-        console.debug('Issue added:', createdIssue.ops);
-        return done(null, createdIssue.ops[0]);
+      .collection('projects')
+      .findOne({
+        slug
       })
-      .catch(reason => {
-        console.error('Failed to create issue:', reason);
-        done('Error creating issue');
+      .then(found => {
+        console.debug('Project found:', found);
+        return done(null, found);
+      })
+      .catch(ex => {
+        console.error('Failed to fetch project ' + slug + ':', ex);
+        done(`Failed to fetch project '${slug}'`);
       });
   }
 
-  update(issue, done) {
-    if (!issue._id) {
-      return done('_id error');
-    }
-
-    let objectId;
+  getById(id, done) {
+    let oid = null;
 
     try {
-      objectId = new ObjectID(issue._id);
-    } catch (ex) {
-      console.error('Failed to create ObjectID: ', ex);
-      return done('_id error');
-    }
-
-    if (
-      !issue.issue_title &&
-      !issue.issue_text &&
-      !issue.created_by &&
-      !issue.assigned_to &&
-      !issue.status_text &&
-      issue.open === undefined
-    ) {
-      return done('no updated field sent');
-    }
-
-    const updateObj = {};
-
-    for (let prop in issue) {
-      if (prop === '_id') continue;
-      if (prop === 'issue_title' && !issue[prop]) continue;
-      if (prop === 'issue_text' && !issue[prop]) continue;
-      if (prop === 'created_by' && !issue[prop]) continue;
-      updateObj[prop] = issue[prop];
-    }
-
-    updateObj.updated_on = new Date();
-    console.debug('Updating with:', updateObj);
-
-    if (updateObj.hasOwnProperty('open')) {
-      if (updateObj.open === 'true') {
-        updateObj.open = true;
-      } else {
-        updateObj.open = false;
-      }
+      id = new ObjectID(project._id);
+    } catch (e) {
+      console.error('Failed to create object id:', e);
+      return done('Invalid project id');
     }
 
     this.db
-      .collection('issues')
+      .collection('projects')
+      .findOne({
+        _id: oid
+      })
+      .then(found => {
+        return done(null, found);
+      })
+      .catch(ex => {
+        console.error('Failed to fetch project:', ex);
+        return done(`Could not read the project ${id}`);
+      });
+  }
+
+  getByName(name, done) {
+    if (!name) {
+      return done(null, null);
+    }
+    const slug = slugify(name);
+    return this.getBySlug(slug, done);
+  }
+
+  add(project, done) {
+    if (!project.name || !project.owner) {
+      return done('No project name or owner specified');
+    }
+    const slug = slugify(project.name.trim());
+    this.getBySlug(slug, (err, found) => {
+      if (err) {
+        return done(err);
+      }
+      if (found !== null) {
+        return done(null, found);
+      }
+      this.db
+        .collection('projects')
+        .insertOne({
+          name: project.name,
+          slug,
+          owner: project.owner,
+          created_on: new Date(),
+          updated_on: new Date()
+        })
+        .then(insert => {
+          console.debug('Inserted project:', insert);
+          return done(null, insert.ops);
+        })
+        .catch(ex => {
+          console.error(`Failed to create project ${project.name}:`, ex);
+          return done(`Could not create project ${project.name}`);
+        });
+    });
+  }
+
+  update(project, done) {
+    let id = null;
+
+    try {
+      id = new ObjectID(project._id);
+    } catch (e) {
+      console.error('Failed to create object id:', e);
+      return done('Invalid project id');
+    }
+    if (!project.name && !project.owner) {
+      return done('Nothing to update');
+    }
+    const slug = slugify(project.name);
+    this.db
       .findOneAndUpdate(
         {
-          _id: objectId
+          _id: id
         },
         {
-          $set: updateObj
+          $set: {
+            slug,
+            name: project.name,
+            owner: project.owner,
+            updated_on: new Date()
+          }
         },
         {
           returnOriginal: false
         }
       )
-      .then(result => {
-        console.debug('Updated issue:', result.value);
-        done(null, 'successfully updated');
+      .then(op => {
+        return done('Project updated');
       })
-      .catch(error => {
-        console.error('Issue update failed:', error);
-        done(`could not update ${_id}`);
+      .catch(ex => {
+        console.error('Project update failed:', ex);
+        return done(`Failed to update project ${project._id}`);
       });
   }
 
-  remove(issueId, done) {
-    if (!issueId) {
-      return done('_id error');
-    }
-
-    let objectId;
+  remove(projectId, done) {
+    let id = null;
 
     try {
-      objectId = new ObjectID(issueId);
-    } catch (ex) {
-      console.error('Failed to create ObjectID: ', ex);
-      return done('_id error');
+      id = new ObjectID(projectId);
+    } catch (e) {
+      console.error('Failed to create object id:', e);
+      return done('Invalid project id');
     }
 
+    // First, remove the child issues:
     this.db
       .collection('issues')
-      .findOneAndDelete({
-        _id: objectId
+      .deleteMany({
+        projectId: id
       })
       .then(() => {
-        return done(null, `deleted ${issueId}`);
+        // Now remove the project:
+        this.db
+          .collection('projects')
+          .findOneAndDelete({
+            _id: id
+          })
+          .then(() => {
+            return done('Project removed');
+          })
+          .catch(err => {
+            console.error(`Failed to remove project '${projectId}':`, err);
+            return done(
+              `Could not remove project '${projectId}', but the issues were removed`
+            );
+          });
       })
-      .catch(error => {
-        console.error('Failed to remove issue:', error);
-        done(`could not delete ${issueId}`);
+      .catch(err => {
+        console.error(
+          `Failed to remove the project '${projectId}' issues:`,
+          err
+        );
+        return done(`Could not remove project '${projectId}' issues`);
       });
   }
 }

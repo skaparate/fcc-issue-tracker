@@ -40,7 +40,7 @@ suite('Functional Tests', function() {
           }
 
           assert.isTrue(actual.open, 'The issue is not open');
-          assert.equal(actual.project, 'test', 'The project name is different');
+          assert.isNotNull(actual.projectId, 'The project is not null');
           assert.isNotNull(actual._id, 'The id is null');
           chai
             .request(server)
@@ -79,7 +79,7 @@ suite('Functional Tests', function() {
           }
 
           assert.isTrue(actual.open);
-          assert.equal(actual.project, 'test');
+          assert.isNotNull(actual.projectId, 'The project is not null');
           chai
             .request(server)
             .delete('/api/issues/test')
@@ -221,7 +221,6 @@ suite('Functional Tests', function() {
         chai
           .request(server)
           .get('/api/issues/apitest')
-          .query({})
           .end(function(err, res) {
             if (err) {
               return done(err);
@@ -254,7 +253,7 @@ suite('Functional Tests', function() {
             }
             assert.equal(res.status, 200);
             assert.isArray(res.body);
-            assert.equal(res.body.length, 1);
+            assert.equal(res.body.length, 3);
             assert.equal(res.body[0].created_by, 'god');
             done();
           });
@@ -265,7 +264,7 @@ suite('Functional Tests', function() {
           .request(server)
           .get('/api/issues/apitest')
           .query({
-            created_by: 'creator',
+            created_by: 'morgan',
             open: true,
             issue_title: 'Issue 2'
           })
@@ -277,7 +276,7 @@ suite('Functional Tests', function() {
             assert.equal(res.status, 200);
             assert.isArray(res.body);
             assert.equal(res.body.length, 1);
-            assert.equal(res.body[0].created_by, 'creator');
+            assert.equal(res.body[0].created_by, 'morgan');
             assert.equal(res.body[0].issue_title, 'Issue 2');
             done();
           });

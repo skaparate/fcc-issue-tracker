@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="content">
+    <div class="columns">
+      <div class="column is-6">
+        <h2>Projects</h2>
+      </div>
+      <div class="column is-2">
+        <a uiSref="newProject">
+          <fa-icon [icon]="faPlusCircle"></fa-icon>
+        </a>
+      </div>
+    </div>
+    <p>List of the available projects:</p>
+    <div class="projects columns">
+      <ul class="columns is-multiline" *ngIf="projects">
+        <li *ngFor="let project of projects" class="column is-4">
+          <div class="card" id="project">
+            <div class="card-content">
+              <div class="columns">
+                <div class="column">
+                  <h2 class="title is-size-4">
+                    <a uiSref="editProject" [uiParams]="{ id: project._id }" title="Edit project {{ project.name }}">
+                      <fa-icon [icon]="faEdit"></fa-icon> </a
+                    >{{ ' '
+                    }}<a uiSref="project" [uiParams]="{ id: project._id }" title="View project {{ project.name }}">{{
+                      project.name
+                    }}</a>
+                  </h2>
+                  <div class="tags has-addons">
+                    <span class="tag">Issues</span>
+                    <span
+                      class="tag"
+                      [class.is-danger]="project.issueCount > 0"
+                      [class.is-info]="project.issueCount <= 0"
+                      >{{ project.issueCount }}</span
+                    >
+                  </div>
+                </div>
+                <div class="column">
+                  <span class="is-size-7">id: {{ project._id }}</span>
+                </div>
+              </div>
+              <h3 class="is-size-6">By: {{ project.owner }}</h3>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

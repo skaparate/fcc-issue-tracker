@@ -1,0 +1,52 @@
+<div class="project-editor">
+  <div class="container" *ngIf="isReady">
+    <h2 class="title">
+      {{ isEditing ? 'Editing Project ' + project.name : 'Create Project' }}
+    </h2>
+    <form>
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+              <input
+                class="input"
+                type="text"
+                placeholder="Name"
+                [(ngModel)]="project.name"
+                name="name"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label">Owner</label>
+            <div class="control">
+              <input
+                class="input"
+                type="text"
+                placeholder="Owner"
+                [(ngModel)]="project.owner"
+                name="owner"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Id</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            placeholder="Id"
+            [(ngModel)]="project._id"
+            name="id"
+            disabled="disabled"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

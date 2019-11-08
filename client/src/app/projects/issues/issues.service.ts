@@ -2,29 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Project } from './project.model';
+import { Issue } from './issue.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectsService {
-  private apiUrl: string = '/api/projects';
+export class IssuesService {
+  private apiUri = '/api/issues';
 
   constructor(private http: HttpClient) {}
 
-  list(): Observable<Project[]> {
+  list(projectSlug: string): Observable<Issue[]> {
+    const uri = `${this.apiUri}/${projectSlug}`;
     return this.http
-      .get<Project[]>(this.apiUrl)
-      .pipe(catchError(this.handleError<Project[]>('list', [])));
-  }
-
-  byId(id: string): Observable<Project> {
-    const uri = `${this.apiUrl}/${id}`;
-    console.debug('Retrieving project by id:', uri);
-    return this.http.get<Project>(uri).pipe(
-      tap(_ => console.log(`fetched hero id=${id}`)),
-      catchError(this.handleError<Project>(`byId id=${id}`))
-    );
+      .get<Issue[]>(uri)
+      .pipe(catchError(this.handleError<Issue[]>('list', [])));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

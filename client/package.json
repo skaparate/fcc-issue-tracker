@@ -24,7 +24,9 @@
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@uirouter/angular": "^5.0.0",
     "bulma": "^0.8.0",
-    "rxjs": "~6.4.0",
+    "ng-http-loader": "^6.0.1",
+    "rxjs": "^6.5.0",
+    "spinkit": "^2.0.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },

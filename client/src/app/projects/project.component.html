@@ -1,0 +1,9 @@
+<div class="project" *ngIf="project">
+  <div class="container">
+    <div class="content">
+      <h2 class="title">{{ project.name }}</h2>
+      <span class="is-text-7">id: {{ project._id }}</span>
+      <issues projectSlug="{{ project.slug }}"></issues>
+    </div>
+  </div>
+</div>

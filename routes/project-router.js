@@ -11,6 +11,7 @@ module.exports = () => {
     .get((req, res) => {
       const id = req.params.id;
       if (id) {
+        console.debug('Get project by id:', id);
         req.controller.getById(id, (err, found) => {
           if (err) {
             return res.json(err);
@@ -18,6 +19,7 @@ module.exports = () => {
           return res.json(found);
         });
       } else {
+        console.debug('Retrieving list of projects:', id);
         req.controller.list((err, doc) => {
           if (err) {
             return res.json(err);

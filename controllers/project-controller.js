@@ -74,7 +74,7 @@ class ProjectController {
     let oid = null;
 
     try {
-      id = new ObjectID(project._id);
+      oid = new ObjectID(id);
     } catch (e) {
       console.error('Failed to create object id:', e);
       return done('Invalid project id');

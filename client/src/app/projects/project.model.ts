@@ -2,6 +2,7 @@ export class Project {
   name: string;
   slug: string;
   owner: string;
+  url: string;
   issueCount: number;
   createdOn: Date;
   updatedOn: Date;

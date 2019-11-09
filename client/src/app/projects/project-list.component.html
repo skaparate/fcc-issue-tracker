@@ -1,0 +1,27 @@
+<ui-view
+  ><div class="container">
+    <div class="content">
+      <div class="columns">
+        <div class="column is-6">
+          <h2>Projects</h2>
+          <a uiSref="projects.create">
+            <fa-icon [icon]="faPlusCircle"></fa-icon>
+            New Project
+          </a>
+        </div>
+        <div class="column is-2"></div>
+      </div>
+      <p>List of the available projects:</p>
+      <div class="projects columns">
+        <ul class="columns is-multiline" *ngIf="projects">
+          <li *ngFor="let project of projects" class="column is-4">
+            <project-list-item
+              class="project-list-item project-{{ project._id }}"
+              [project]="project"
+            ></project-list-item>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ui-view>

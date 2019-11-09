@@ -6,12 +6,14 @@
           <div class="level-item">
             <h2 class="title">
               {{
-                isEditing ? 'Editing Project ' + project.name : 'Create Project'
+                isEditing
+                  ? 'Editing Issue ' + issue.issue_title
+                  : 'Create Issue'
               }}
             </h2>
           </div>
           <div class="is-text-7 level-item" *ngIf="isEditing">
-            <span class="is-text-7">id: {{ project._id }} </span>
+            <span class="is-text-7">id: {{ issue._id }} </span>
           </div>
         </div>
       </div>
@@ -20,14 +22,15 @@
     <div class="content">
       <form>
         <div class="field">
-          <label class="label">Name</label>
+          <label class="label">Title</label>
           <div class="control has-icons-left has-icons-right">
             <input
               class="input"
               type="text"
-              placeholder="Project name"
-              [(ngModel)]="project.name"
-              name="name"
+              placeholder="Issue title"
+              [(ngModel)]="issue.issue_title"
+              name="issue_title"
+              required
             />
             <span class="icon is-small is-left">
               <fa-icon [icon]="faSignature"></fa-icon>
@@ -35,14 +38,29 @@
           </div>
         </div>
         <div class="field">
-          <label class="label">Owner</label>
+          <label class="label">Description</label>
+          <div class="control">
+            <textarea
+              class="textarea"
+              type="text"
+              placeholder="Description"
+              [(ngModel)]="issue.issue_text"
+              name="issue_text"
+              required
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Author</label>
           <div class="control has-icons-left has-icons-right">
             <input
               class="input"
               type="text"
-              placeholder="Owner"
-              [(ngModel)]="project.owner"
-              name="owner"
+              placeholder="skaparate"
+              [(ngModel)]="issue.created_by"
+              name="created_by"
+              required
             />
             <span class="icon is-small is-left">
               <fa-icon [icon]="faUser"></fa-icon>
@@ -51,20 +69,37 @@
         </div>
 
         <div class="field">
-          <label class="label">URL</label>
+          <label class="label">Assigned To</label>
           <div class="control has-icons-left has-icons-right">
             <input
               class="input"
               type="text"
-              placeholder="Project url"
-              [(ngModel)]="project.url"
-              name="url"
+              placeholder="skaparate"
+              [(ngModel)]="issue.assigned_to"
+              name="assigned_to"
             />
             <span class="icon is-small is-left">
-              <fa-icon [icon]="faAnchor"></fa-icon>
+              <fa-icon [icon]="faUser"></fa-icon>
             </span>
           </div>
         </div>
+
+        <div class="field">
+          <label class="label">Status</label>
+          <div class="control has-icons-left has-icons-right">
+            <input
+              class="input"
+              type="text"
+              placeholder="Status"
+              [(ngModel)]="issue.status_text"
+              name="status_text"
+            />
+            <span class="icon is-small is-left">
+              <fa-icon [icon]="faUser"></fa-icon>
+            </span>
+          </div>
+        </div>
+
         <div class="field is-grouped">
           <div class="control">
             <button class="button is-link" type="submit">Submit</button>
@@ -72,7 +107,8 @@
           <div class="control">
             <a
               class="button is-link is-light"
-              uiSref="projects"
+              uiSref="projects.project"
+              [uiParams]="{ projectSlug: projectSlug }"
               >Cancel</a
             >
           </div>

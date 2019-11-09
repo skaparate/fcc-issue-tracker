@@ -1,0 +1,38 @@
+<div class="card project-list-item" *ngIf="project">
+  <div class="card-header"></div>
+  <div class="card-content">
+    <h2 class="title is-size-4">
+      <a
+        uiSref="projects.project"
+        [uiParams]="{ slug: project.slug }"
+        title="View project {{ project.name }}"
+        >{{ project.name }}</a
+      >
+    </h2>
+    <h3 class="subtitle is-size-6">@{{ project.owner }}</h3>
+  </div>
+  <!-- .card-content -->
+  <footer class="card-footer">
+    <a
+      uiSref="projects.edit"
+      [uiParams]="{ id: project._id }"
+      title="Edit project {{ project.name }}"
+      class="card-footer-item"
+    >
+      <fa-icon [icon]="faEdit"></fa-icon> Modify
+    </a>
+    <div class="card-footer-item">
+      <div class="tags has-addons">
+        <span class="tag">Issues</span>
+        <span
+          class="tag"
+          [class.is-danger]="project.issueCount > 0"
+          [class.is-info]="project.issueCount <= 0"
+          >{{ project.issueCount }}</span
+        >
+      </div>
+    </div>
+  </footer>
+  <!-- .card-footer -->
+</div>
+<!-- .card -->

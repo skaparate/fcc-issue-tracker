@@ -12,11 +12,43 @@ export class IssuesService {
 
   constructor(private http: HttpClient) {}
 
+  uri(path: string = '') {
+    return `${this.apiUri}/${path}`;
+  }
+
   list(projectSlug: string): Observable<Issue[]> {
-    const uri = `${this.apiUri}/${projectSlug}`;
+    const uri = this.uri(projectSlug);
     return this.http
       .get<Issue[]>(uri)
       .pipe(catchError(this.handleError<Issue[]>('list', [])));
+  }
+
+  byId(projectSlug: string, id: string): Observable<Issue> {
+    const uri = `${this.apiUri}/${projectSlug}/${id}`;
+    return this.http.get<Issue>(uri).pipe(
+      tap(_ => console.log(`Fetched issue id=${id}`)),
+      catchError(this.handleError<Issue>(`byId id=${id}`))
+    );
+  }
+
+  remove(projectSlug: string, id: string) {
+    const uri = this.uri(`${projectSlug}/${id}`);
+    return this.http
+      .delete(uri)
+      .pipe(
+        tap(
+          _ => console.log(`Deleting issue id=${id}`),
+          catchError(this.handleError(`remove id=${id}`))
+        )
+      );
+  }
+
+  update(projectSlug: string, issue: Issue): Observable<string> {
+    const uri = this.uri(`${projectSlug}/${issue._id}`);
+    return this.http.put<string>(uri, issue).pipe(
+      tap(_ => console.log(`Update issue ${issue._id}`)),
+      catchError(this.handleError<string>())
+    );
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

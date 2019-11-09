@@ -1,4 +1,5 @@
 export class Issue {
+  _id: string;
   issue_title: string;
   issue_text: string;
   created_by: string;

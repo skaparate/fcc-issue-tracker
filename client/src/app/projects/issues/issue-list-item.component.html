@@ -1,0 +1,46 @@
+<div *ngIf="issue" class="issue-list-item issue-{{ issue._id }}">
+  <div class="card">
+    <div class="card-content">
+      <div class="columns">
+        <div class="column">
+          <h3>{{ issue.issue_title }}</h3>
+        </div>
+        <div class="column">
+          <div class="tags has-addons">
+            <span class="tag">Status</span>
+            <span
+              class="tag"
+              [class.is-danger]="issue.open"
+              [class.is-success]="!issue.open"
+              >{{ status }}</span
+            >
+          </div>
+        </div>
+      </div>
+      <p>{{ excerpt }}</p>
+    </div>
+    <footer class="card-footer">
+      <a
+        class="card-footer-item"
+        uiSref="projects.project.issue.edit"
+        [uiParams]="{ projectSlug: projectSlug, issueId: issue._id }"
+      >
+        <fa-icon [icon]="faEdit"></fa-icon>{{ ' ' }}Edit
+      </a>
+      <a class="card-footer-item" (click)="changeIssueState($event)">
+        <fa-icon [icon]="statusIcon"></fa-icon>{{ statusText }}
+      </a>
+    </footer>
+    <div class="message {{ messageClass }}" *ngIf="showMessage">
+      <div class="message-header">
+        <p>Operation</p>
+        <button
+          class="delete"
+          aria-label="delete"
+          (click)="dismissMessage($event)"
+        ></button>
+      </div>
+      <div class="message-body">{{ message }}</div>
+    </div>
+  </div>
+</div>

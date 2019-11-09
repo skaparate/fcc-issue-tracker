@@ -3,24 +3,20 @@ import { ProjectsService } from './projects.service';
 import { Project } from './project.model';
 import {
   faProjectDiagram,
-  faPlusCircle,
-  faEdit
+  faPlusCircle
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'projects',
-  templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.sass']
+  selector: 'project-list',
+  templateUrl: './project-list.component.html',
+  styleUrls: ['./project-list.component.sass']
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectListComponent implements OnInit {
   private projects: Project[];
   private faProjectDiagram = faProjectDiagram;
   private faPlusCircle = faPlusCircle;
-  private faEdit = faEdit;
 
-  constructor(private service: ProjectsService) {
-    console.debug('Projects component');
-  }
+  constructor(private service: ProjectsService) {}
 
   ngOnInit(): void {
     console.debug('Service:', this.service);

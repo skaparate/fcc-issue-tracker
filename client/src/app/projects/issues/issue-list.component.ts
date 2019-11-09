@@ -1,14 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IssuesService } from '../issues/issues.service';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { IssuesService } from './issues.service';
 import { Issue } from './issue.model';
 
 @Component({
-  selector: 'issues',
-  templateUrl: './issues.component.html'
+  selector: 'issue-list',
+  templateUrl: './issue-list.component.html'
 })
-export class IssuesComponent implements OnInit {
+export class IssueListComponent implements OnInit {
   @Input() projectSlug: string;
   private issues: Issue[];
+  private faPlusCircle = faPlusCircle;
 
   constructor(private service: IssuesService) {}
 

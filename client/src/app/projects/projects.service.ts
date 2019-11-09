@@ -22,8 +22,17 @@ export class ProjectsService {
     const uri = `${this.apiUrl}/${id}`;
     console.debug('Retrieving project by id:', uri);
     return this.http.get<Project>(uri).pipe(
-      tap(_ => console.log(`fetched hero id=${id}`)),
+      tap(_ => console.log(`Fetched project id=${id}`)),
       catchError(this.handleError<Project>(`byId id=${id}`))
+    );
+  }
+
+  bySlug(slug: string): Observable<Project> {
+    const uri = `${this.apiUrl}/s/${slug}`;
+    console.debug('Retrieving project by slug:', uri);
+    return this.http.get<Project>(uri).pipe(
+      tap(_ => console.log(`Fetched project by slug=${slug}`)),
+      catchError(this.handleError<Project>(`bySlug slug=${slug}`))
     );
   }
 

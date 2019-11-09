@@ -3,6 +3,26 @@ const ProjectController = require('../controllers/project-controller');
 
 module.exports = () => {
   router
+    .route('/api/projects/s/:slug')
+    .all((req, res, next) => {
+      req.controller = new ProjectController(req.db);
+      next();
+    })
+    .get((req, res) => {
+      const slug = req.params.slug;
+
+      if (!slug) {
+        return res.json('No slug provided');
+      }
+
+      req.controller.getBySlug(slug, (err, project) => {
+        if (err) {
+          return res.json(err);
+        }
+        return res.json(project);
+      });
+    });
+  router
     .route('/api/projects/:id?')
     .all((req, res, next) => {
       req.controller = new ProjectController(req.db);

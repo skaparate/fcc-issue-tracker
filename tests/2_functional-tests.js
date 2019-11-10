@@ -265,7 +265,6 @@ suite('Functional Tests', function() {
           .get('/api/issues/apitest')
           .query({
             created_by: 'morgan',
-            open: true,
             issue_title: 'Issue 2'
           })
           .end(function(err, res) {

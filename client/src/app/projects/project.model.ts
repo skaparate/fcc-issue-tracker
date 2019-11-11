@@ -1,4 +1,5 @@
 export class Project {
+  _id: string;
   name: string;
   slug: string;
   owner: string;

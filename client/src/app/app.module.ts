@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { UIRouterModule } from '@uirouter/angular';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgHttpLoaderModule, Spinkit } from 'ng-http-loader';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -10,6 +10,10 @@ import { HomeComponent } from './home/home.component';
 import { NavigationComponent } from './navigation.component';
 import { ProjectsModule } from './projects/projects.module';
 import { Breadcrumbs } from './breadcrumbs/breadcrumbs.component';
+import { ModalBodyComponent } from './modal/modal-body/modal-body.component';
+import { ModalHeaderComponent } from './modal/modal-header/modal-header.component';
+import { ModalFooterComponent } from './modal/modal-footer/modal-footer.component';
+import Utils from './utils';
 
 const states = [
   {
@@ -20,17 +24,26 @@ const states = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, NavigationComponent, HomeComponent, Breadcrumbs],
+  declarations: [
+    AppComponent,
+    NavigationComponent,
+    HomeComponent,
+    Breadcrumbs,
+    ModalBodyComponent,
+    ModalHeaderComponent,
+    ModalFooterComponent
+  ],
   imports: [
     HttpClientModule,
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     ProjectsModule,
     FontAwesomeModule,
     UIRouterModule.forRoot({ states }),
     NgHttpLoaderModule.forRoot()
   ],
-  providers: [],
+  providers: [Utils],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

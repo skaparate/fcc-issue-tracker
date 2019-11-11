@@ -36,6 +36,28 @@ export class ProjectsService {
     );
   }
 
+  update(project: Project): Observable<string> {
+    return this.http
+      .put<string>(this.apiUrl, project)
+      .pipe(
+        tap(
+          _ => console.log(`Updated project id=${project._id}`),
+          catchError(this.handleError<string>(`update id=${project._id}`))
+        )
+      );
+  }
+
+  create(project: Project): Observable<Project> {
+    return this.http
+      .post<Project>(this.apiUrl, project)
+      .pipe(
+        tap(
+          _ => console.log(`Created project id=${project._id}`),
+          catchError(this.handleError<Project>(`create project`))
+        )
+      );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure

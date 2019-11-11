@@ -125,7 +125,7 @@ class ProjectController {
         })
         .then(insert => {
           console.debug('Inserted project:', insert);
-          return done(null, insert.ops);
+          return done(null, insert.ops.length === 1 ? insert.ops[0] : {});
         })
         .catch(ex => {
           console.error(`Failed to create project ${project.name}:`, ex);
@@ -148,6 +148,7 @@ class ProjectController {
     }
     const slug = slugify(project.name);
     this.db
+      .collection('projects')
       .findOneAndUpdate(
         {
           _id: id

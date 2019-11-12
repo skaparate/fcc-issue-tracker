@@ -70,7 +70,7 @@ module.exports = () => {
     })
     .delete((req, res) => {
       const projectId = req.params.id;
-      req.controller.delete(projectId, (err, result) => {
+      req.controller.remove(projectId, (err, result) => {
         if (err) {
           return res.json(err);
         }

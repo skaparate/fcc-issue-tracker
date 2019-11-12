@@ -43,6 +43,18 @@ export class IssuesService {
       );
   }
 
+  create(projectSlug: string, issue: Issue) {
+    const uri = this.uri(projectSlug);
+    return this.http
+      .post<Issue>(uri, issue)
+      .pipe(
+        tap(
+          _ => console.log(`Created new issue`),
+          catchError(this.handleError(`create issue`))
+        )
+      );
+  }
+
   update(projectSlug: string, issue: Issue): Observable<string> {
     const uri = this.uri(`${projectSlug}/${issue._id}`);
     return this.http.put<string>(uri, issue).pipe(

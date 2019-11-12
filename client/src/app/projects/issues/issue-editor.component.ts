@@ -7,7 +7,9 @@ import Utils from '../../utils';
 import {
   faSignature,
   faParagraph,
-  faUser
+  faUser,
+  faExclamationTriangle,
+  faCheck
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -31,6 +33,8 @@ export class IssueEditorComponent implements OnInit {
   private faSignature = faSignature;
   private faParagraph = faParagraph;
   private faUser = faUser;
+  private faExclamationTriangle = faExclamationTriangle;
+  private faCheck = faCheck;
 
   constructor(
     private stateService: StateService,
@@ -72,6 +76,17 @@ export class IssueEditorComponent implements OnInit {
       this.issue = new Issue('', '', '');
       this.buildForm();
     }
+  }
+
+  isNotValid(control: any) {
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+  getControlIcon(control: any) {
+    if (control.invalid) {
+      return faExclamationTriangle;
+    }
+    return faCheck;
   }
 
   get assigned_to() {
@@ -124,6 +139,9 @@ export class IssueEditorComponent implements OnInit {
           this.created_by.value
         );
 
+        newIssue.assigned_to = this.assigned_to.value;
+        newIssue.status_text = this.status_text.value;
+
         if (this.isEditing) {
           newIssue._id = this.issue._id;
           this.service
@@ -149,10 +167,32 @@ export class IssueEditorComponent implements OnInit {
               }
             });
         } else {
-          // TODO: Post the new issue
+          this.service
+            .create(this.projectSlug, newIssue)
+            .subscribe(response => {
+              if (!response._id) {
+                this.response = {
+                  title: 'Error',
+                  message: 'Could not create the issue'
+                };
+                this.responseClasses = 'is-danger';
+              } else {
+                this.uiOptions = {
+                  reload: true
+                };
+                this.stateService.go(
+                  'projects.project',
+                  {
+                    slug: this.projectSlug
+                  },
+                  this.uiOptions
+                );
+              }
+            });
         }
       } else {
         console.info('Data has not changed; skipping');
+        this.stateService.go('projects.project', { slug: this.projectSlug });
       }
     } else {
       console.error('Data is not valid');

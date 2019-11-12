@@ -22,4 +22,15 @@ export class ProjectListComponent implements OnInit {
     console.debug('Service:', this.service);
     this.service.list().subscribe(response => (this.projects = response));
   }
+
+  /**
+   * Called when a project is removed from the database,
+   * which in turns needs to be removed from the list.
+   *
+   * @param id The id of the project removed.
+   */
+  onDeleteProject(id: string) {
+    console.info(`The project '${id}' was deleted`);
+    this.projects = this.projects.filter(i => i._id !== id);
+  }
 }

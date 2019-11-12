@@ -21,6 +21,14 @@
     >
       <fa-icon [icon]="faEdit"></fa-icon> Modify
     </a>
+    <a
+      href="#"
+      class="card-footer-item"
+      title="Remove project '{{ project.name }}''"
+      (click)="removeProject($event, project._id)"
+    >
+      <fa-icon [icon]="faTrash"></fa-icon> Delete
+    </a>
     <div class="card-footer-item">
       <div class="tags has-addons">
         <span class="tag">Issues</span>

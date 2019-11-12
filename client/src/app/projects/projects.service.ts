@@ -58,6 +58,14 @@ export class ProjectsService {
       );
   }
 
+  remove(id: string): Observable<string> {
+    const uri = `${this.apiUrl}/${id}`;
+    return this.http.delete<string>(uri).pipe(
+      tap(_ => console.log(`Removed project id=${id}`)),
+      catchError(this.handleError<string>(`remove id=${id}`))
+    );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure

@@ -18,6 +18,7 @@
             <project-list-item
               class="project-list-item project-{{ project._id }}"
               [project]="project"
+              (deleteProject)="onDeleteProject($event)"
             ></project-list-item>
           </li>
         </ul>

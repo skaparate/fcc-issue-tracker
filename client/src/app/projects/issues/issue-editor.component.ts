@@ -158,9 +158,10 @@ export class IssueEditorComponent implements OnInit {
                   reload: true
                 };
                 this.stateService.go(
-                  'projects.project',
+                  'projects.project.issue',
                   {
-                    slug: this.projectSlug
+                    slug: this.projectSlug,
+                    issueId: newIssue._id
                   },
                   this.uiOptions
                 );
@@ -181,9 +182,10 @@ export class IssueEditorComponent implements OnInit {
                   reload: true
                 };
                 this.stateService.go(
-                  'projects.project',
+                  'projects.project.issue',
                   {
-                    slug: this.projectSlug
+                    slug: this.projectSlug,
+                    issueId: response._id
                   },
                   this.uiOptions
                 );

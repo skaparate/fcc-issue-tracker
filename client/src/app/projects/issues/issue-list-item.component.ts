@@ -1,5 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { faEdit, faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  faEdit,
+  faLock,
+  faLockOpen,
+  faTrash
+} from '@fortawesome/free-solid-svg-icons';
 import { Issue } from './issue.model';
 import { IssuesService } from './issues.service';
 
@@ -10,14 +15,18 @@ import { IssuesService } from './issues.service';
 export class IssueListItemComponent implements OnInit {
   @Input() issue: Issue;
   @Input() projectSlug: string;
+  @Output() deleteIssue: EventEmitter<string>;
   private faEdit = faEdit;
   private faLock = faLock;
   private faLockOpen = faLockOpen;
+  private faTrash = faTrash;
   private showMessage = false;
   private message = '';
   private messageClass = 'is-success';
 
-  constructor(private service: IssuesService) {}
+  constructor(private service: IssuesService) {
+    this.deleteIssue = new EventEmitter();
+  }
 
   ngOnInit() {
     console.debug('IssueListItem.onInit: ', this.projectSlug);
@@ -70,5 +79,16 @@ export class IssueListItemComponent implements OnInit {
       result = text;
     }
     return result;
+  }
+
+  handleIssueRemoval(id: string) {
+    this.service.remove(this.projectSlug, id).subscribe(result => {
+      if (result !== `deleted ${id}`) {
+        alert(result);
+      } else {
+        alert('Issue removed');
+        this.deleteIssue.emit(id);
+      }
+    });
   }
 }

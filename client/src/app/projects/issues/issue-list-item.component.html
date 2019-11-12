@@ -27,6 +27,13 @@
       >
         <fa-icon [icon]="faEdit"></fa-icon>{{ ' ' }}Edit
       </a>
+      <a
+        class="card-footer-item"
+        title="Remove issue '{{ issue.issue_title }}'"
+        (click)="handleIssueRemoval(issue._id)"
+      >
+        <fa-icon [icon]="faTrash"></fa-icon> Remove
+      </a>
       <a class="card-footer-item" (click)="changeIssueState($event)">
         <fa-icon [icon]="statusIcon"></fa-icon>{{ statusText }}
       </a>

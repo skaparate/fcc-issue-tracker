@@ -19,4 +19,8 @@ export class IssueListComponent implements OnInit {
       .list(this.projectSlug)
       .subscribe(response => (this.issues = response));
   }
+
+  handleDeleteIssue(id: string) {
+    this.issues = this.issues.filter(i => i._id !== id);
+  }
 }

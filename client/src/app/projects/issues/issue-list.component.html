@@ -1,15 +1,19 @@
 <div class="issue-list project-{{ projectSlug }}">
   <div>
-    <a class="button is-info" uiSref="projects.project.issueCreate"
-    [uiParams]="{ projectSlug: projectSlug }">
-    <fa-icon [icon]="faPlusCircle"></fa-icon> New Issue
-  </a>
+    <a
+      class="button is-info"
+      uiSref="projects.project.issueCreate"
+      [uiParams]="{ projectSlug: projectSlug }"
+    >
+      <fa-icon [icon]="faPlusCircle"></fa-icon> New Issue
+    </a>
   </div>
   <ul *ngIf="issues" class="columns is-multiline">
     <li *ngFor="let issue of issues" class="column is-6">
       <issue-list-item
         [issue]="issue"
         [projectSlug]="projectSlug"
+        (deleteIssue)="handleDeleteIssue($event)"
       ></issue-list-item>
     </li>
   </ul>

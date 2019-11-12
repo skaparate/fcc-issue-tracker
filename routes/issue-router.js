@@ -99,7 +99,7 @@ module.exports = () => {
     })
 
     .delete(function(req, res) {
-      const id = req.body._id;
+      const id = req.body._id || req.params.id;
       req.controller.remove(id, (err, doc) => {
         if (err) {
           return res.json(err);

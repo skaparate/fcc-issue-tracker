@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Transition, StateService, TransitionOptions } from '@uirouter/angular';
+import { StateService, TransitionOptions } from '@uirouter/angular';
 import { Project } from './project.model';
 import { ProjectsService } from './projects.service';
 import {

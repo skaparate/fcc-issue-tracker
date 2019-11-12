@@ -1,4 +1,4 @@
-<div class="project-editor">
+<div class="issue-editor">
   <div class="container" *ngIf="isReady">
     <header>
       <div class="level">
@@ -20,7 +20,7 @@
     </header>
     <hr />
     <div class="content">
-      <form>
+      <form [formGroup]="issueForm" (ngSubmit)="onSubmit()">
         <div class="field">
           <label class="label">Title</label>
           <div class="control has-icons-left has-icons-right">
@@ -28,8 +28,8 @@
               class="input"
               type="text"
               placeholder="Issue title"
-              [(ngModel)]="issue.issue_title"
               name="issue_title"
+              formControlName="issue_title"
               required
             />
             <span class="icon is-small is-left">
@@ -44,8 +44,8 @@
               class="textarea"
               type="text"
               placeholder="Description"
-              [(ngModel)]="issue.issue_text"
               name="issue_text"
+              formControlName="issue_text"
               required
             ></textarea>
           </div>
@@ -58,7 +58,7 @@
               class="input"
               type="text"
               placeholder="skaparate"
-              [(ngModel)]="issue.created_by"
+              formControlName="created_by"
               name="created_by"
               required
             />
@@ -75,7 +75,7 @@
               class="input"
               type="text"
               placeholder="skaparate"
-              [(ngModel)]="issue.assigned_to"
+              formControlName="assigned_to"
               name="assigned_to"
             />
             <span class="icon is-small is-left">
@@ -91,7 +91,7 @@
               class="input"
               type="text"
               placeholder="Status"
-              [(ngModel)]="issue.status_text"
+              formControlName="status_text"
               name="status_text"
             />
             <span class="icon is-small is-left">
@@ -111,6 +111,15 @@
               [uiParams]="{ projectSlug: projectSlug }"
               >Cancel</a
             >
+          </div>
+          <div class="control">
+            <button
+              class="button is-light"
+              (click)="randomData()"
+              title="Fills the fields with random data"
+            >
+              Random
+            </button>
           </div>
         </div>
       </form>

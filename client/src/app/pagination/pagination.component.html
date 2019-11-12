@@ -1,0 +1,27 @@
+<nav
+  class="pagination"
+  role="navigation"
+  aria-label="pagination"
+  *ngIf="pagination?.shouldDisplay"
+>
+  <a
+    class="pagination-previous"
+    *ngIf="!pagination.isFirst"
+    uiSref="pagination.state"
+    [uiParams]="{
+      page: pagination.previous
+    }"
+    >Previous</a
+  >
+  <span class="pagination-previous" *ngIf="pagination.isFirst">Previous</span>
+  <a
+    class="pagination-next"
+    *ngIf="!pagination.isLast"
+    uiSref="{{ pagination.state }}"
+    [uiParams]="{
+      page: pagination.next
+    }"
+    >Next page</a
+  >
+  <span class="pagination-next" *ngIf="pagination.isLast">Next Page</span>
+</nav>

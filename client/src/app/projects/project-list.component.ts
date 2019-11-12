@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectsService } from './projects.service';
 import { Project } from './project.model';
+import Pagination from '../pagination/pagination.model';
 import {
   faProjectDiagram,
   faPlusCircle
@@ -15,12 +16,16 @@ export class ProjectListComponent implements OnInit {
   private projects: Project[];
   private faProjectDiagram = faProjectDiagram;
   private faPlusCircle = faPlusCircle;
+  private pagination: Pagination;
 
   constructor(private service: ProjectsService) {}
 
   ngOnInit(): void {
     console.debug('Service:', this.service);
-    this.service.list().subscribe(response => (this.projects = response));
+    this.service.list().subscribe(response => {
+      this.projects = response;
+      this.pagination = new Pagination(this.projects, 150, 'projects', 1);
+    });
   }
 
   /**

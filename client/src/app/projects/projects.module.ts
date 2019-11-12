@@ -15,6 +15,8 @@ import { IssueComponent } from './issues/issue.component';
 import { IssueEditorComponent } from './issues/issue-editor.component';
 import states from './projects.states';
 
+import { PaginationComponent } from '../pagination/pagination.component';
+
 @NgModule({
   declarations: [
     ProjectListComponent,
@@ -24,7 +26,8 @@ import states from './projects.states';
     IssueListComponent,
     IssueListItemComponent,
     IssueComponent,
-    IssueEditorComponent
+    IssueEditorComponent,
+    PaginationComponent
   ],
   imports: [
     FontAwesomeModule,

@@ -9,8 +9,19 @@ import { IssueEditorComponent } from './issues/issue-editor.component';
 const states = [
   {
     name: 'projects',
-    url: '/projects',
-    component: ProjectListComponent
+    url: '/projects/:page?',
+    component: ProjectListComponent,
+    resolve: [
+      {
+        token: 'page',
+        deps: [Transition],
+        resolveFn: (transition: Transition) => {
+          const params = transition.params();
+          console.debug('Page:', params.page);
+          return params.page;
+        }
+      }
+    ]
   },
   {
     name: 'projects.project',

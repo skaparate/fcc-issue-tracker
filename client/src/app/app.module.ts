@@ -7,6 +7,7 @@ import { NgHttpLoaderModule, Spinkit } from 'ng-http-loader';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
 import { NavigationComponent } from './navigation.component';
 import { ProjectsModule } from './projects/projects.module';
 import { Breadcrumbs } from './breadcrumbs/breadcrumbs.component';
@@ -20,6 +21,11 @@ const states = [
     name: 'home',
     url: '/',
     component: HomeComponent
+  },
+  {
+    name: 'about',
+    url: '/about',
+    component: AboutComponent
   }
 ];
 
@@ -31,7 +37,8 @@ const states = [
     Breadcrumbs,
     ModalBodyComponent,
     ModalHeaderComponent,
-    ModalFooterComponent
+    ModalFooterComponent,
+    AboutComponent
   ],
   imports: [
     HttpClientModule,

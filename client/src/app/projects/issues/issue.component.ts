@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Issue } from './issue.model';
 import { IssuesService } from './issues.service';
+import { faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'issue',
@@ -11,6 +12,9 @@ export class IssueComponent implements OnInit {
   @Input() issueId: string;
 
   private issue: Issue;
+
+  private faEdit = faEdit;
+  private faPlus = faPlus;
 
   constructor(private service: IssuesService) {}
 

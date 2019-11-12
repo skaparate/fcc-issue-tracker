@@ -1,5 +1,67 @@
 <div class="issue">
   <ui-view>
-    <h2 *ngIf="issue">{{ issue.issue_title }}</h2>
+    <div class="issue-view" *ngIf="issue">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <div>
+              <h4 title="Issue title" class="title">
+                {{ issue.issue_title }}
+              </h4>
+              <h5 title="Author" class="is-size-6">
+                By @{{ issue.created_by }}
+              </h5>
+            </div>
+          </div>
+        </div>
+        <div class="level-item" *ngIf="issue.status_text">
+          <p>Status: {{ issue.status_text }}</p>
+        </div>
+
+        <div class="level-item" *ngIf="issue.assigned_to">
+          <p>Assignee: {{ issue.assigned_to }}</p>
+        </div>
+
+        <div class="level-item">
+          <div class="is-size-7" title="The date this issue was created on">
+            <strong>{{ issue.created_on | date: 'short' }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-8 content">
+          <blockquote>
+            {{ issue.issue_text }}
+          </blockquote>
+        </div>
+        <div class="column is-4">
+          <aside class="menu">
+            <div class="menu-label">
+              Actions
+            </div>
+            <ul class="menu-list">
+              <li>
+                <a
+                  uiSref="projects.project.issueCreate"
+                  [uiParams]="{ projectSlug: projectSlug }"
+                  >
+                  <fa-icon [icon]="faPlus"></fa-icon> New Issue
+                </a>
+              </li>
+              <li>
+                <a
+                  uiSref="projects.project.issue.edit"
+                  [uiParams]="{ projectSlug: projectSlug, issueId: issue._id }"
+                >
+                  <fa-icon [icon]="faEdit"></fa-icon> Edit
+                </a>
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </div>
+    <!-- .issue-view -->
   </ui-view>
 </div>

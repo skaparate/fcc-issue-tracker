@@ -3,7 +3,15 @@
     <div class="card-content">
       <div class="columns">
         <div class="column">
-          <h3>{{ issue.issue_title }}</h3>
+          <h3>
+            <a
+              uiSref="projects.project.issue"
+              [uiParams]="{ projectSlug: projectSlug, issueId: issue._id }"
+              title="View issue details"
+            >
+              <fa-icon [icon]="faEye"></fa-icon> {{ issue.issue_title }}
+            </a>
+          </h3>
         </div>
         <div class="column">
           <div class="tags has-addons">
@@ -34,7 +42,11 @@
       >
         <fa-icon [icon]="faTrash"></fa-icon> Remove
       </a>
-      <a class="card-footer-item" (click)="changeIssueState($event)">
+      <a
+        class="card-footer-item"
+        (click)="changeIssueState($event)"
+        title="Toggle the issue '{{ issue.issue_title }}'  status"
+      >
         <fa-icon [icon]="statusIcon"></fa-icon>{{ statusText }}
       </a>
     </footer>

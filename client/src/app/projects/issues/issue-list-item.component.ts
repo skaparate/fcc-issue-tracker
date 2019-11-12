@@ -3,7 +3,8 @@ import {
   faEdit,
   faLock,
   faLockOpen,
-  faTrash
+  faTrash,
+  faEye
 } from '@fortawesome/free-solid-svg-icons';
 import { Issue } from './issue.model';
 import { IssuesService } from './issues.service';
@@ -20,6 +21,8 @@ export class IssueListItemComponent implements OnInit {
   private faLock = faLock;
   private faLockOpen = faLockOpen;
   private faTrash = faTrash;
+  private faEye = faEye;
+
   private showMessage = false;
   private message = '';
   private messageClass = 'is-success';

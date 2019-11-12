@@ -9,7 +9,7 @@
     </a>
   </div>
   <ul *ngIf="issues" class="columns is-multiline">
-    <li *ngFor="let issue of issues" class="column is-6">
+    <li *ngFor="let issue of issues" class="column is-12">
       <issue-list-item
         [issue]="issue"
         [projectSlug]="projectSlug"

@@ -18,20 +18,18 @@ export default class Pagination {
    * @param state The state to build the uiSref value.
    * @param currentPage The current page.
    * @param pageSize The items that fit a single page.
-   * @param range
-   * @param pageStart
+   * @param range Range of pages to display. Like 1 ... 5, 6, 7 ... 100.
+   * The pages will start at (currentPage - range) and end at (currentPage + range).
    */
   constructor(
     totalItems: number,
     state: string,
     currentPage = 1,
     pageSize = 10,
-    range = 5,
-    pageStart = 1
+    range = 5
   ) {
     this.totalItems = totalItems;
     this.range = range;
-    this.pageStart = pageStart;
     this.pageSize = pageSize;
     this._totalPages = Math.ceil(this.totalItems / this.pageSize);
     this._state = state;

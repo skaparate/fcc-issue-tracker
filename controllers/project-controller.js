@@ -6,22 +6,37 @@ class ProjectController {
     this.db = db;
   }
 
-  list(done, filters = {}) {
+  list(done, filters = {}, pagination = {}) {
     const query = Object.assign({}, filters);
+    const pageSettings = Object.assign(
+      {
+        page: 1,
+        pageSize: 10,
+      },
+      pagination
+    );
     console.debug('Query:', query);
+    console.debug('Pagination:', pageSettings);
+
+    const page = parseInt(pageSettings.page);
+    const rpp = parseInt(pageSettings.pageSize);
+    const sliceStart = page ? (page - 1) * rpp : 0;
+    const sliceEnd = rpp;
+
+    console.debug('Slice:', sliceStart, sliceEnd);
     this.db
       .collection('projects')
       .aggregate([
         {
-          $match: query
+          $match: query,
         },
         {
           $lookup: {
             from: 'issues',
             localField: '_id',
             foreignField: 'projectId',
-            as: 'issues'
-          }
+            as: 'issues',
+          },
         },
         {
           $addFields: {
@@ -31,22 +46,43 @@ class ProjectController {
                   input: '$issues',
                   as: 'issue',
                   cond: {
-                    $eq: ['$$issue.open', true]
-                  }
-                }
-              }
-            }
-          }
+                    $eq: ['$$issue.open', true],
+                  },
+                },
+              },
+            },
+          },
         },
         {
           $project: {
-            issues: false
-          }
-        }
+            issues: false,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            total: {
+              $sum: 1,
+            },
+            data: {
+              $push: '$$ROOT',
+            },
+          },
+        },
+        {
+          $project: {
+            _id: false,
+            total: true,
+            data: {
+              $slice: ['$data', sliceStart, sliceEnd],
+            },
+          },
+        },
       ])
       .toArray()
       .then(result => {
-        return done(null, result);
+        console.debug('Retrieved project list:', result);
+        return done(null, result.length === 1 ? result[0] : []);
       })
       .catch(error => {
         console.error('Failed to retrieve project list:', error);
@@ -58,7 +94,7 @@ class ProjectController {
     this.db
       .collection('projects')
       .findOne({
-        slug
+        slug,
       })
       .then(found => {
         console.debug('Project found:', found);
@@ -83,7 +119,7 @@ class ProjectController {
     this.db
       .collection('projects')
       .findOne({
-        _id: oid
+        _id: oid,
       })
       .then(found => {
         return done(null, found);
@@ -121,7 +157,7 @@ class ProjectController {
           slug,
           owner: project.owner,
           created_on: new Date(),
-          updated_on: new Date()
+          updated_on: new Date(),
         })
         .then(insert => {
           console.debug('Inserted project:', insert);
@@ -151,18 +187,18 @@ class ProjectController {
       .collection('projects')
       .findOneAndUpdate(
         {
-          _id: id
+          _id: id,
         },
         {
           $set: {
             slug,
             name: project.name,
             owner: project.owner,
-            updated_on: new Date()
-          }
+            updated_on: new Date(),
+          },
         },
         {
-          returnOriginal: false
+          returnOriginal: false,
         }
       )
       .then(op => {
@@ -188,14 +224,14 @@ class ProjectController {
     this.db
       .collection('issues')
       .deleteMany({
-        projectId: id
+        projectId: id,
       })
       .then(() => {
         // Now remove the project:
         this.db
           .collection('projects')
           .findOneAndDelete({
-            _id: id
+            _id: id,
           })
           .then(() => {
             return done('Project removed');

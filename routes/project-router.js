@@ -40,12 +40,28 @@ module.exports = () => {
         });
       } else {
         console.debug('Retrieving list of projects:', id);
-        req.controller.list((err, doc) => {
-          if (err) {
-            return res.json(err);
+        const pagination = {
+          page: req.query.page || 1,
+          pageSize: req.query.pageSize || 10,
+        };
+        const query = {};
+
+        for (let prop in req.query) {
+          if (prop !== 'page' && prop !== 'pageSize') {
+            query[prop] = req.query[prop];
           }
-          return res.json(doc);
-        }, req.query);
+        }
+
+        req.controller.list(
+          (err, doc) => {
+            if (err) {
+              return res.json(err);
+            }
+            return res.json(doc);
+          },
+          query,
+          pagination
+        );
       }
     })
     .post((req, res) => {

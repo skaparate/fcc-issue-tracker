@@ -8,30 +8,13 @@ import { IssueEditorComponent } from './issues/issue-editor.component';
 const states = [
   {
     name: 'projects',
-    url: '/projects/:page',
+    url: '/projects?page&pageSize',
     component: ProjectListComponent,
-    params: {
-      page: {
-        type: 'int',
-        array: false,
-        value: null
-      }
-    },
-    resolve: [
-      {
-        token: 'page',
-        deps: [Transition],
-        resolveFn: (transition: Transition) => {
-          const params = transition.params();
-          console.debug('Page:', params.page);
-          return params.page;
-        }
-      }
-    ]
   },
   {
     name: 'projects.project',
-    url: '/:slug',
+    // The page and pageSize are the params for the issues pagination.
+    url: '/:slug?page&pageSize',
     component: ProjectComponent,
     resolve: [
       {
@@ -41,15 +24,15 @@ const states = [
           const slug = transition.params().slug;
           console.debug('projects.project.slug:', slug);
           return slug;
-        }
-      }
+        },
+      },
     ],
-    children: {}
+    children: {},
   },
   {
     name: 'projects.create',
     url: '/create',
-    component: ProjectEditorComponent
+    component: ProjectEditorComponent,
   },
   {
     name: 'projects.edit',
@@ -63,14 +46,14 @@ const states = [
           const id = transition.params().id;
           console.debug('Transition.params.id:', id);
           return id;
-        }
-      }
-    ]
+        },
+      },
+    ],
   },
   {
     name: 'projects.project.issueCreate',
     url: '/issue/create',
-    component: IssueEditorComponent
+    component: IssueEditorComponent,
   },
   {
     name: 'projects.project.issue',
@@ -83,15 +66,15 @@ const states = [
         resolveFn: (transition: Transition) => {
           const issueId = transition.params().issueId;
           return issueId;
-        }
-      }
-    ]
+        },
+      },
+    ],
   },
   {
     name: 'projects.project.issue.edit',
     url: '/edit',
-    component: IssueEditorComponent
-  }
+    component: IssueEditorComponent,
+  },
 ];
 
 export default states;

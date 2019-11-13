@@ -1,35 +1,91 @@
+/**
+ * A pagination class represents the data required to display the page numbers.
+ */
 export default class Pagination {
-  items: Array<any>;
   totalItems: number;
   range: number;
   pageStart: number;
-  itemsPerPage: number;
+  pageSize: number;
   private _state: string;
-  private _totalPages = 0;
-  private _currentPage = 0;
+  private _totalPages: number;
+  private _currentPage: number;
+  private _pageList = [];
 
+  /**
+   * Builds a pagination object.
+   *
+   * @param totalItems The total number of items for this page.
+   * @param state The state to build the uiSref value.
+   * @param currentPage The current page.
+   * @param pageSize The items that fit a single page.
+   * @param range
+   * @param pageStart
+   */
   constructor(
-    items: Array<any>,
     totalItems: number,
     state: string,
-    itemsPerPage = 10,
+    currentPage = 1,
+    pageSize = 10,
     range = 5,
     pageStart = 1
   ) {
-    this.items = items;
     this.totalItems = totalItems;
     this.range = range;
     this.pageStart = pageStart;
-    this.itemsPerPage = itemsPerPage;
-    this._totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    this.pageSize = pageSize;
+    this._totalPages = Math.ceil(this.totalItems / this.pageSize);
     this._state = state;
+    this._currentPage = Number(currentPage);
+    console.debug('Total pages:', this._totalPages);
+
+    if (this._totalPages > 1) {
+      this.buildPageList();
+    }
+    console.debug('Page list:', this._pageList);
   }
 
-  get shouldDisplay() {
-    if (this.items === undefined) {
-      return false;
+  buildPageList() {
+    this._pageList.push(1);
+    const maxRange = this.range * 2 + 1;
+    let startAt: number = 2,
+      endAt: number = this._totalPages - 1;
+
+    if (maxRange < this._totalPages) {
+      startAt = this._currentPage - this.range;
+      if (startAt <= 2) {
+        startAt = 2;
+      }
+
+      endAt = this._currentPage + this.range;
+
+      if (endAt >= this._totalPages) {
+        endAt = this._totalPages - 1;
+      }
+
+      console.debug('Range start:', startAt);
+      console.debug('Range end at:', endAt);
     }
-    return this.items.length > 0 && this._totalPages > 0;
+
+    if (startAt > 2) {
+      this._pageList.push('hellip');
+    }
+
+    for (let i = startAt; i <= endAt; i++) {
+      this._pageList.push(i);
+    }
+
+    if (endAt < this._totalPages - 1) {
+      this._pageList.push('hellip');
+    }
+
+    this._pageList.push(this._totalPages);
+  }
+
+  /**
+   * Wheter or not the pagination should be displayed.
+   */
+  get shouldDisplay() {
+    return this._totalPages > 1;
   }
 
   get totalPages() {
@@ -41,21 +97,40 @@ export default class Pagination {
   }
 
   set currentPage(page) {
-    this._currentPage = page;
+    this._currentPage = Number(page);
   }
 
+  /**
+   * Retrieves the page list.
+   */
+  get pageList() {
+    return this._pageList;
+  }
+
+  /**
+   * Checks if the current page is the first.
+   */
   get isFirst() {
-    return this._currentPage === 0;
+    return this._currentPage === 1;
   }
 
+  /**
+   * Checks if the current page is the last or not.
+   */
   get isLast() {
     return this._currentPage === this._totalPages;
   }
 
+  /**
+   * Retrieves the state (see uiSref from ui-router).
+   */
   get state() {
     return this._state;
   }
 
+  /**
+   * Retrieves the next page, where totalPages is the maximum.
+   */
   get next() {
     let n = this._currentPage + 1;
     if (n > this._totalPages) {
@@ -64,10 +139,13 @@ export default class Pagination {
     return n;
   }
 
+  /**
+   * Retrieves the previous page with 1 as the minimum.
+   */
   get previous() {
     let p = this._currentPage - 1;
-    if (p < 0) {
-      p = 0;
+    if (p < 1) {
+      p = 1;
     }
     return p;
   }

@@ -1,29 +1,33 @@
 <ui-view
   ><div class="container">
-    <div class="content">
-      <div class="columns">
-        <div class="column is-6">
-          <h2>Projects</h2>
-          <a uiSref="projects.create">
-            <fa-icon [icon]="faPlusCircle"></fa-icon>
-            New Project
-          </a>
-        </div>
-        <div class="column is-2"></div>
+    <div class="columns">
+      <div class="column is-6">
+        <h2 class="title">Projects</h2>
+        <a uiSref="projects.create">
+          <fa-icon [icon]="faPlusCircle"></fa-icon>
+          New Project
+        </a>
       </div>
-      <p>List of the available projects:</p>
-      <div class="projects columns">
-        <ul class="columns is-multiline" *ngIf="projects">
-          <li *ngFor="let project of projects" class="column is-4">
-            <project-list-item
-              class="project-list-item project-{{ project._id }}"
-              [project]="project"
-              (deleteProject)="onDeleteProject($event)"
-            ></project-list-item>
-          </li>
-        </ul>
-      </div>
-      <nmv-pagination [pagination]="pagination" *ngIf="pagination"></nmv-pagination>
+      <div class="column is-2"></div>
     </div>
+    <div class="content">
+      <p>List of the available projects:</p>
+    </div>
+    <div class="projects">
+      <ul class="columns is-multiline" *ngIf="projects">
+        <li *ngFor="let project of projects" class="column">
+          <project-list-item
+            class="project-list-item project-{{ project._id }}"
+            [project]="project"
+            (deleteProject)="onDeleteProject($event)"
+          ></project-list-item>
+        </li>
+      </ul>
+    </div>
+    <nmv-pagination
+      [pagination]="pagination"
+      *ngIf="pagination"
+      class="pagination-wrapper"
+    ></nmv-pagination>
   </div>
 </ui-view>

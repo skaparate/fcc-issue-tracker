@@ -3,19 +3,37 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Project } from './project.model';
+import ProjectList from './project-list.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectsService {
   private apiUrl: string = '/api/projects';
 
   constructor(private http: HttpClient) {}
 
-  list(): Observable<Project[]> {
+  list(query = {}): Observable<ProjectList> {
+    let uri = this.apiUrl;
+    let queryStr = '';
+    for (let prop in query) {
+      queryStr += `${encodeURIComponent(prop)}=${encodeURIComponent(
+        query[prop]
+      )}&`;
+    }
+
+    if (queryStr.length > 0) {
+      uri += `?${queryStr}`.replace(/&$/g, '');
+    }
+
+    console.debug('Fetching projects:', uri);
     return this.http
-      .get<Project[]>(this.apiUrl)
-      .pipe(catchError(this.handleError<Project[]>('list', [])));
+      .get<ProjectList>(uri)
+      .pipe(
+        catchError(
+          this.handleError<ProjectList>('projectList', new ProjectList())
+        )
+      );
   }
 
   byId(id: string): Observable<Project> {
@@ -23,7 +41,7 @@ export class ProjectsService {
     console.debug('Retrieving project by id:', uri);
     return this.http.get<Project>(uri).pipe(
       tap(_ => console.log(`Fetched project id=${id}`)),
-      catchError(this.handleError<Project>(`byId id=${id}`))
+      catchError(this.handleError<Project>(`projects.byId id=${id}`))
     );
   }
 
@@ -32,7 +50,7 @@ export class ProjectsService {
     console.debug('Retrieving project by slug:', uri);
     return this.http.get<Project>(uri).pipe(
       tap(_ => console.log(`Fetched project by slug=${slug}`)),
-      catchError(this.handleError<Project>(`bySlug slug=${slug}`))
+      catchError(this.handleError<Project>(`projects.bySlug slug=${slug}`))
     );
   }
 

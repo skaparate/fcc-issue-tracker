@@ -1,31 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { StateService } from '@uirouter/angular';
 import { ProjectsService } from './projects.service';
 import { Project } from './project.model';
 import Pagination from '../pagination/pagination.model';
 import {
   faProjectDiagram,
-  faPlusCircle
+  faPlusCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'project-list',
   templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.sass']
+  styleUrls: ['./project-list.component.sass'],
 })
 export class ProjectListComponent implements OnInit {
+  private page: number;
+  private pageSize: number;
   private projects: Project[];
   private faProjectDiagram = faProjectDiagram;
   private faPlusCircle = faPlusCircle;
   private pagination: Pagination;
 
-  constructor(private service: ProjectsService) {}
+  constructor(
+    private service: ProjectsService,
+    private stateSvc: StateService
+  ) {
+    this.page = this.stateSvc.params.page;
+    this.pageSize = this.stateSvc.params.pageSize;
+  }
 
   ngOnInit(): void {
-    console.debug('Service:', this.service);
-    this.service.list().subscribe(response => {
-      this.projects = response;
-      this.pagination = new Pagination(this.projects, 150, 'projects', 1);
-    });
+    console.debug('Projects.pagination:', this.page, this.pageSize);
+    this.service
+      .list({
+        page: this.page,
+        pageSize: this.pageSize,
+      })
+      .subscribe(response => {
+        console.debug('project.list.response:', response, typeof response.data);
+        this.projects = response.data;
+        this.pagination = new Pagination(
+          response.total,
+          'projects',
+          this.page,
+          this.pageSize,
+          1
+        );
+      });
   }
 
   /**

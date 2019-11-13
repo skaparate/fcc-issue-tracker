@@ -1,5 +1,5 @@
 <nav
-  class="pagination"
+  class="pagination is-centered"
   role="navigation"
   aria-label="pagination"
   *ngIf="pagination?.shouldDisplay"
@@ -7,13 +7,37 @@
   <a
     class="pagination-previous"
     *ngIf="!pagination.isFirst"
-    uiSref="pagination.state"
+    uiSref="{{ pagination.state }}"
     [uiParams]="{
       page: pagination.previous
     }"
+    attr.aria-label="Go to page {{ pagination.previous }}"
     >Previous</a
   >
   <span class="pagination-previous" *ngIf="pagination.isFirst">Previous</span>
+
+  <ul class="pagination-list">
+    <li *ngIf="pagination.hasLeftEllipsis"></li>
+    <li *ngFor="let page of pagination.pageList">
+      <span class="pagination-ellipsis" *ngIf="page === 'hellip'">
+        &hellip;
+      </span>
+      <a
+        *ngIf="page !== 'hellip'"
+        class="pagination-link"
+        attr.aria-label="Go to page {{ page }}"
+        uiSref="{{ pagination.state }}"
+        [uiParams]="{
+          page: page
+        }"
+        [class.is-current]="page == pagination.currentPage"
+        (click)="handlePageChange(page)"
+      >
+        {{ page }}
+      </a>
+    </li>
+  </ul>
+
   <a
     class="pagination-next"
     *ngIf="!pagination.isLast"
@@ -21,6 +45,7 @@
     [uiParams]="{
       page: pagination.next
     }"
+    attr.aria-label="Go to page {{ pagination.next }}"
     >Next page</a
   >
   <span class="pagination-next" *ngIf="pagination.isLast">Next Page</span>

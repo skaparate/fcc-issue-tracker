@@ -1,7 +1,6 @@
 import { Transition } from '@uirouter/angular';
 import { ProjectListComponent } from './project-list.component';
 import { ProjectComponent } from './project.component';
-import { ProjectsService } from './projects.service';
 import { ProjectEditorComponent } from './project-editor.component';
 import { IssueComponent } from './issues/issue.component';
 import { IssueEditorComponent } from './issues/issue-editor.component';
@@ -9,8 +8,15 @@ import { IssueEditorComponent } from './issues/issue-editor.component';
 const states = [
   {
     name: 'projects',
-    url: '/projects/:page?',
+    url: '/projects/:page',
     component: ProjectListComponent,
+    params: {
+      page: {
+        type: 'int',
+        array: false,
+        value: null
+      }
+    },
     resolve: [
       {
         token: 'page',

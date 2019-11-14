@@ -4,28 +4,28 @@ import {
   faLock,
   faLockOpen,
   faTrash,
-  faEye
+  faEye,
 } from '@fortawesome/free-solid-svg-icons';
 import { Issue } from './issue.model';
 import { IssuesService } from './issues.service';
 
 @Component({
   selector: 'issue-list-item',
-  templateUrl: './issue-list-item.component.html'
+  templateUrl: './issue-list-item.component.html',
 })
 export class IssueListItemComponent implements OnInit {
   @Input() issue: Issue;
   @Input() projectSlug: string;
   @Output() deleteIssue: EventEmitter<string>;
-  private faEdit = faEdit;
-  private faLock = faLock;
-  private faLockOpen = faLockOpen;
-  private faTrash = faTrash;
-  private faEye = faEye;
+  faEdit = faEdit;
+  faLock = faLock;
+  faLockOpen = faLockOpen;
+  faTrash = faTrash;
+  faEye = faEye;
 
-  private showMessage = false;
-  private message = '';
-  private messageClass = 'is-success';
+  showMessage = false;
+  message = '';
+  messageClass = 'is-success';
 
   constructor(private service: IssuesService) {
     this.deleteIssue = new EventEmitter();

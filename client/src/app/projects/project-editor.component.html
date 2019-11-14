@@ -19,8 +19,6 @@
     <hr />
     <div class="content">
       <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
-        <p>Status: {{ projectForm.valid }}</p>
-        <p>{{ diagnostics }}</p>
         <div class="field">
           <label class="label">Name</label>
           <div class="control has-icons-left has-icons-right">

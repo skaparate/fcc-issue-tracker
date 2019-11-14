@@ -1,8 +1,6 @@
-# Tracky - Issue Tracker
+# Client
 
-This is the client (UI) to work with the free code camp's Issue Tracker API.
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.10.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.19.
 
 ## Development server
 

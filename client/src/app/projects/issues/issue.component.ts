@@ -5,16 +5,16 @@ import { faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'issue',
-  templateUrl: './issue.component.html'
+  templateUrl: './issue.component.html',
 })
 export class IssueComponent implements OnInit {
   @Input() projectSlug: string;
   @Input() issueId: string;
 
-  private issue: Issue;
+  issue: Issue;
 
-  private faEdit = faEdit;
-  private faPlus = faPlus;
+  faEdit = faEdit;
+  faPlus = faPlus;
 
   constructor(private service: IssuesService) {}
 

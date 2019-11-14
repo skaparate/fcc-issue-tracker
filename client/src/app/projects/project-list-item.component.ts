@@ -4,7 +4,7 @@ import {
   ElementRef,
   ComponentRef,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Project } from './project.model';
@@ -12,7 +12,7 @@ import { ProjectsService } from './projects.service';
 
 @Component({
   selector: 'project-list-item',
-  templateUrl: './project-list-item.component.html'
+  templateUrl: './project-list-item.component.html',
 })
 export class ProjectListItemComponent {
   @Input() project: Project;
@@ -20,8 +20,8 @@ export class ProjectListItemComponent {
    * Event emitted when a project is successfully removed.
    */
   @Output() deleteProject: EventEmitter<string>;
-  private faEdit = faEdit;
-  private faTrash = faTrash;
+  faEdit = faEdit;
+  faTrash = faTrash;
 
   constructor(private service: ProjectsService) {
     this.deleteProject = new EventEmitter();

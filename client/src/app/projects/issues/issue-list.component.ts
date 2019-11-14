@@ -5,12 +5,12 @@ import { Issue } from './issue.model';
 
 @Component({
   selector: 'issue-list',
-  templateUrl: './issue-list.component.html'
+  templateUrl: './issue-list.component.html',
 })
 export class IssueListComponent implements OnInit {
   @Input() projectSlug: string;
-  private issues: Issue[];
-  private faPlusCircle = faPlusCircle;
+  issues: Issue[];
+  faPlusCircle = faPlusCircle;
 
   constructor(private service: IssuesService) {}
 

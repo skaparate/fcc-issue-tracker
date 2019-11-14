@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Project } from './project.model';
 import { IssuesService } from './issues/issues.service';
 import { Issue } from './issues/issue.model';
@@ -7,12 +6,12 @@ import { ProjectsService } from './projects.service';
 
 @Component({
   selector: 'project',
-  templateUrl: './project.component.html'
+  templateUrl: './project.component.html',
 })
 export class ProjectComponent implements OnInit {
   @Input() projectSlug: string;
-  private project: Project;
-  private issues: Issue[];
+  project: Project;
+  issues: Issue[];
 
   constructor(
     private service: ProjectsService,

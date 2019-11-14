@@ -14,13 +14,13 @@ import {
   styleUrls: ['./project-list.component.sass'],
 })
 export class ProjectListComponent implements OnInit {
-  private page: number;
-  private pageSize: number;
-  private pageRange: number;
-  private projects: Project[];
-  private faProjectDiagram = faProjectDiagram;
-  private faPlusCircle = faPlusCircle;
-  private pagination: Pagination;
+  page: number;
+  pageSize: number;
+  pageRange: number;
+  projects: Project[];
+  faProjectDiagram = faProjectDiagram;
+  faPlusCircle = faPlusCircle;
+  pagination: Pagination;
 
   constructor(
     private service: ProjectsService,

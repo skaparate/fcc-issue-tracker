@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UIRouterModule } from '@uirouter/angular';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AppCommonModule } from '../app-common.module';
+
 import { ProjectListComponent } from './project-list.component';
 import { ProjectListItemComponent } from './project-list-item.component';
 import { ProjectComponent } from './project.component';
@@ -27,17 +26,11 @@ import { PaginationComponent } from '../pagination/pagination.component';
     IssueListItemComponent,
     IssueComponent,
     IssueEditorComponent,
-    PaginationComponent
+    PaginationComponent,
   ],
-  imports: [
-    FontAwesomeModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    UIRouterModule.forChild({ states })
-  ],
+  imports: [UIRouterModule.forChild({ states: states }), AppCommonModule],
 
   providers: [ProjectsService],
-  bootstrap: []
+  bootstrap: [],
 })
 export class ProjectsModule {}

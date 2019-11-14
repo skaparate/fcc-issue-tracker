@@ -17,7 +17,6 @@
   <span class="pagination-previous" *ngIf="pagination.isFirst">Previous</span>
 
   <ul class="pagination-list">
-    <li *ngIf="pagination.hasLeftEllipsis"></li>
     <li *ngFor="let page of pagination.pageList">
       <span class="pagination-ellipsis" *ngIf="page === 'hellip'">
         &hellip;
@@ -31,7 +30,6 @@
           page: page
         }"
         [class.is-current]="page == pagination.currentPage"
-        (click)="handlePageChange(page)"
       >
         {{ page }}
       </a>

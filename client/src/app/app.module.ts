@@ -1,32 +1,37 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { UIRouterModule } from '@uirouter/angular';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgHttpLoaderModule, Spinkit } from 'ng-http-loader';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AppCommonModule } from './app-common.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { NavigationComponent } from './navigation.component';
-import { ProjectsModule } from './projects/projects.module';
-import { Breadcrumbs } from './breadcrumbs/breadcrumbs.component';
-import { ModalBodyComponent } from './modal/modal-body/modal-body.component';
-import { ModalHeaderComponent } from './modal/modal-header/modal-header.component';
-import { ModalFooterComponent } from './modal/modal-footer/modal-footer.component';
-import Utils from './utils';
+import { Utils } from './utils';
 
 const states = [
   {
-    name: 'home',
-    url: '/',
-    component: HomeComponent
+    name: 'app',
+    redirectTo: 'app.home',
+    component: AppComponent,
   },
   {
-    name: 'about',
+    name: 'app.home',
+    url: '/',
+    component: HomeComponent,
+  },
+  {
+    name: 'app.about',
     url: '/about',
-    component: AboutComponent
-  }
+    component: AboutComponent,
+  },
+  {
+    name: 'projects.**',
+    url: '/projects',
+    loadChildren: () =>
+      import('./projects/projects.module').then(m => m.ProjectsModule),
+  },
 ];
 
 @NgModule({
@@ -34,23 +39,16 @@ const states = [
     AppComponent,
     NavigationComponent,
     HomeComponent,
-    Breadcrumbs,
-    ModalBodyComponent,
-    ModalHeaderComponent,
-    ModalFooterComponent,
-    AboutComponent
+    AboutComponent,
   ],
   imports: [
+    UIRouterModule.forRoot({ states }),
     HttpClientModule,
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ProjectsModule,
-    FontAwesomeModule,
-    UIRouterModule.forRoot({ states }),
-    NgHttpLoaderModule.forRoot()
+    NgHttpLoaderModule.forRoot(),
+    AppCommonModule,
   ],
   providers: [Utils],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

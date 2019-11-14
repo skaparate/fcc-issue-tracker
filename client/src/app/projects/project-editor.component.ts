@@ -8,31 +8,31 @@ import {
   faAnchor,
   faUser,
   faCheck,
-  faExclamationTriangle
+  faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import Utils from '../utils';
+import { Utils } from '../utils';
 
 @Component({
   selector: 'project-editor',
-  templateUrl: './project-editor.component.html'
+  templateUrl: './project-editor.component.html',
 })
 export class ProjectEditorComponent implements OnInit {
   @Input() projectId: string;
-  private project: Project;
-  private isEditing = false;
-  private isReady = false;
-  private projectForm: FormGroup;
-  private responseClasses = '';
-  private response = {
+  project: Project;
+  isEditing = false;
+  isReady = false;
+  projectForm: FormGroup;
+  responseClasses = '';
+  response = {
     title: '',
-    message: ''
+    message: '',
   };
-  private uiOptions: TransitionOptions;
+  uiOptions: TransitionOptions;
 
-  private faSignature = faSignature;
-  private faAnchor = faAnchor;
-  private faUser = faUser;
+  faSignature = faSignature;
+  faAnchor = faAnchor;
+  faUser = faUser;
 
   constructor(
     private fb: FormBuilder,
@@ -41,7 +41,7 @@ export class ProjectEditorComponent implements OnInit {
     private utils: Utils
   ) {
     this.uiOptions = {
-      reload: false
+      reload: false,
     };
   }
 
@@ -50,9 +50,9 @@ export class ProjectEditorComponent implements OnInit {
       name: [this.project.name, [Validators.required, Validators.minLength(3)]],
       owner: [
         this.project.owner,
-        [Validators.required, Validators.minLength(3)]
+        [Validators.required, Validators.minLength(3)],
       ],
-      url: [this.project.url]
+      url: [this.project.url],
     });
   }
 
@@ -100,7 +100,7 @@ export class ProjectEditorComponent implements OnInit {
     return JSON.stringify({
       name: this.name.value,
       owner: this.owner.value,
-      url: this.url.value
+      url: this.url.value,
     });
   }
 
@@ -108,7 +108,7 @@ export class ProjectEditorComponent implements OnInit {
     this.responseClasses = '';
     this.response = {
       title: '',
-      message: ''
+      message: '',
     };
     if (this.projectForm.valid) {
       let shouldUpdate = false;
@@ -138,13 +138,13 @@ export class ProjectEditorComponent implements OnInit {
               this.responseClasses = 'is-danger';
               this.response = {
                 title: 'Operation Failed',
-                message: response
+                message: response,
               };
             } else {
               this.responseClasses = 'is-success';
               this.response = {
                 title: 'Operation Success',
-                message: response
+                message: response,
               };
               this.uiOptions.reload = true;
             }
@@ -154,7 +154,7 @@ export class ProjectEditorComponent implements OnInit {
             if (!response._id) {
               this.response = {
                 title: 'Operation Failed',
-                message: 'Failed to save the project'
+                message: 'Failed to save the project',
               };
               this.responseClasses = 'is-danger';
             } else {

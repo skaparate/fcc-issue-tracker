@@ -15,6 +15,15 @@ class ProjectController {
       },
       pagination
     );
+
+    if (isNaN(pageSettings.page)) {
+      pageSettings.page = 1;
+    }
+    
+    if (isNaN(pageSettings.pageSize)) {
+      pageSettings.pageSize = 10;
+    }
+
     console.debug('Query:', query);
     console.debug('Pagination:', pageSettings);
 

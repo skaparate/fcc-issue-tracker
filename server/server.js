@@ -39,19 +39,15 @@ MongoClient.connect(err => {
 
   app.all('*', (req, res, next) => {
     req.rootPath = process.cwd();
+    next();
+  });
+
+  app.all('/api/*', (req, res, next) => {
     req.db = db;
     next();
   });
 
-  apiRoutes(app);
-
-  //404 Not Found Middleware
-  app.use((req, res, next) => {
-    res
-      .status(404)
-      .type('text')
-      .send('Not Found');
-  });
+  apiRoutes(app, db);
 
   const port = process.env.PORT || 3100;
 

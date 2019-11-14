@@ -16,6 +16,7 @@ import {
 export class ProjectListComponent implements OnInit {
   private page: number;
   private pageSize: number;
+  private pageRange: number;
   private projects: Project[];
   private faProjectDiagram = faProjectDiagram;
   private faPlusCircle = faPlusCircle;
@@ -27,6 +28,7 @@ export class ProjectListComponent implements OnInit {
   ) {
     this.page = this.stateSvc.params.page;
     this.pageSize = this.stateSvc.params.pageSize;
+    this.pageRange = this.stateSvc.params.pageRange;
   }
 
   ngOnInit(): void {
@@ -44,7 +46,7 @@ export class ProjectListComponent implements OnInit {
           'projects',
           this.page,
           this.pageSize,
-          1
+          this.pageRange
         );
       });
   }

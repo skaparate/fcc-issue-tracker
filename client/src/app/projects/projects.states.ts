@@ -8,13 +8,13 @@ import { IssueEditorComponent } from './issues/issue-editor.component';
 const states = [
   {
     name: 'projects',
-    url: '/projects?page&pageSize',
+    url: '/projects?page&pageSize&pageRange',
     component: ProjectListComponent,
   },
   {
     name: 'projects.project',
     // The page and pageSize are the params for the issues pagination.
-    url: '/:slug?page&pageSize',
+    url: '/:slug?page&pageSize&pageRange',
     component: ProjectComponent,
     resolve: [
       {

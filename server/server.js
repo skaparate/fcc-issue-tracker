@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
 const MongoClient = new require('mongodb').MongoClient(process.env.DB, {
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 });
 
 const apiRoutes = require('./routes/api.js');
@@ -15,12 +15,13 @@ const runner = require('./test-runner');
 
 const app = express();
 
-app.use('/public', express.static(process.cwd() + '/public'));
+app.use(express.static(process.cwd() + '/public'));
 
 app.use(cors({ origin: '*' })); //For FCC testing purposes only
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 
 app.use(helmet());
 
@@ -59,13 +60,13 @@ MongoClient.connect(err => {
     console.log(`Listening on port ${port}`);
     db.collection('projects').createIndex(
       {
-        name: 'text'
+        name: 'text',
       },
       {
         background: true,
         unique: false,
         sparse: false,
-        name: 'project_name_text'
+        name: 'project_name_text',
       }
     );
     if (process.env.NODE_ENV === 'test') {

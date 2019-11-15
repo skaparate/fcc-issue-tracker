@@ -4,12 +4,12 @@
       <h2 class="title">{{ project.name }}</h2>
       <div class="subtitle">@{{ project.owner }}</div>
       <hr />
-      <ui-view>
+      <router-outlet name="projectView">
         <div class="content">
-          <p><a uiSref="projects">Back</a></p>
+          <p><a >Back</a></p>
           <issue-list [projectSlug]="project.slug"></issue-list>
         </div>
-      </ui-view>
+      </router-outlet>
     </div>
   </div>
 </div>

@@ -7,13 +7,16 @@
   <a
     class="pagination-previous"
     *ngIf="!pagination.isFirst"
-    uiSref="{{ pagination.state }}"
-    [uiParams]="{
-      page: pagination.previous
-    }"
     attr.aria-label="Go to page {{ pagination.previous }}"
-    >Previous</a
+    [routerLink]="[pagination.state]"
+    [queryParams]="{
+      page: pagination.previous,
+      pageSize: pagination.pageSize,
+      pageRange: pagination.range
+    }"
   >
+    Previous
+  </a>
   <span class="pagination-previous" *ngIf="pagination.isFirst">Previous</span>
 
   <ul class="pagination-list">
@@ -25,11 +28,13 @@
         *ngIf="page !== 'hellip'"
         class="pagination-link"
         attr.aria-label="Go to page {{ page }}"
-        uiSref="{{ pagination.state }}"
-        [uiParams]="{
-          page: page
-        }"
         [class.is-current]="page == pagination.currentPage"
+        [routerLink]="[pagination.state]"
+        [queryParams]="{
+          page: page,
+          pageSize: pagination.pageSize,
+          pageRange: pagination.range
+        }"
       >
         {{ page }}
       </a>
@@ -39,12 +44,15 @@
   <a
     class="pagination-next"
     *ngIf="!pagination.isLast"
-    uiSref="{{ pagination.state }}"
-    [uiParams]="{
-      page: pagination.next
-    }"
     attr.aria-label="Go to page {{ pagination.next }}"
-    >Next page</a
+    [routerLink]="[pagination.state]"
+    [queryParams]="{
+      page: pagination.next,
+      pageSize: pagination.pageSize,
+      pageRange: pagination.range
+    }"
   >
+    Next page
+  </a>
   <span class="pagination-next" *ngIf="pagination.isLast">Next Page</span>
 </nav>

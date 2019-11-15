@@ -1,7 +1,7 @@
 /**
  * A pagination class represents the data required to display the page numbers.
  */
-export default class Pagination {
+export class Pagination {
   totalItems: number;
   range: number;
   pageStart: number;
@@ -29,12 +29,13 @@ export default class Pagination {
     range = 5
   ) {
     this.totalItems = totalItems;
-    this.range = range;
+    this.range = Number(range);
     this.pageSize = pageSize;
     this._totalPages = Math.ceil(this.totalItems / this.pageSize);
     this._state = state;
     this._currentPage = Number(currentPage);
     console.debug('Total pages:', this._totalPages);
+    console.debug('Page range:', this.range);
 
     if (this._totalPages > 1) {
       this.buildPageList();

@@ -1,5 +1,5 @@
 <div class="issue">
-  <ui-view>
+  <router-outlet name="issueView">
     <div class="issue-view" *ngIf="issue">
       <div class="level">
         <div class="level-left">
@@ -43,16 +43,16 @@
             <ul class="menu-list">
               <li>
                 <a
-                  uiSref="projects.project.issueCreate"
-                  [uiParams]="{ projectSlug: projectSlug }"
+
+
                   >
                   <fa-icon [icon]="faPlus"></fa-icon> New Issue
                 </a>
               </li>
               <li>
                 <a
-                  uiSref="projects.project.issue.edit"
-                  [uiParams]="{ projectSlug: projectSlug, issueId: issue._id }"
+
+
                 >
                   <fa-icon [icon]="faEdit"></fa-icon> Edit
                 </a>
@@ -63,5 +63,5 @@
       </div>
     </div>
     <!-- .issue-view -->
-  </ui-view>
+  </router-outlet>
 </div>

@@ -1,14 +1,7 @@
-import {
-  Component,
-  Input,
-  ElementRef,
-  ComponentRef,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Project } from './project.model';
-import { ProjectsService } from './projects.service';
+import { Project } from '../project.model';
+import { ProjectsService } from '../projects.service';
 
 @Component({
   selector: 'project-list-item',

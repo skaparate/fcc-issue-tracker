@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import Pagination from './pagination.model';
+import { Pagination } from './pagination.model';
 
 @Component({
   selector: 'nmv-pagination',

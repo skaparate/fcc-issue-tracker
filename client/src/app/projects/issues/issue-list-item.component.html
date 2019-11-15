@@ -5,8 +5,8 @@
         <div class="column">
           <h3>
             <a
-              uiSref="projects.project.issue"
-              [uiParams]="{ projectSlug: projectSlug, issueId: issue._id }"
+
+
               title="View issue details"
             >
               <fa-icon [icon]="faEye"></fa-icon> {{ issue.issue_title }}
@@ -30,8 +30,8 @@
     <footer class="card-footer">
       <a
         class="card-footer-item"
-        uiSref="projects.project.issue.edit"
-        [uiParams]="{ projectSlug: projectSlug, issueId: issue._id }"
+
+
       >
         <fa-icon [icon]="faEdit"></fa-icon>{{ ' ' }}Edit
       </a>

@@ -3,8 +3,6 @@
   <div class="card-content">
     <h2 class="title is-size-4">
       <a
-        uiSref="projects.project"
-        [uiParams]="{ slug: project.slug }"
         title="View project {{ project.name }}"
         >{{ project.name }}</a
       >
@@ -14,8 +12,6 @@
   <!-- .card-content -->
   <footer class="card-footer">
     <a
-      uiSref="projects.edit"
-      [uiParams]="{ id: project._id }"
       title="Edit project {{ project.name }}"
       class="card-footer-item"
     >

@@ -1,4 +1,4 @@
-import { Project } from './project.model';
+import { Project } from '../project.model';
 
 export default class ProjectList {
   data: Project[];

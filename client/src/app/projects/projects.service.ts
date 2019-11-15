@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Project } from './project.model';
-import ProjectList from './project-list.model';
+import ProjectList from './project-list/project-list.model';
 
 @Injectable({
   providedIn: 'root',

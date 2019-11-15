@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { StateService, TransitionOptions } from '@uirouter/angular';
-import { Project } from './project.model';
-import { ProjectsService } from './projects.service';
 import {
   faSignature,
   faAnchor,
@@ -10,7 +8,10 @@ import {
   faCheck,
   faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
+
+import { Project } from './project.model';
+import { ProjectsService } from './projects.service';
 import { Utils } from '../utils';
 
 @Component({
@@ -28,21 +29,20 @@ export class ProjectEditorComponent implements OnInit {
     title: '',
     message: '',
   };
-  uiOptions: TransitionOptions;
 
   faSignature = faSignature;
   faAnchor = faAnchor;
   faUser = faUser;
 
   constructor(
+    private route: ActivatedRoute,
     private fb: FormBuilder,
-    private stateService: StateService,
     private service: ProjectsService,
-    private utils: Utils
+    private utils: Utils,
+    private router: Router
   ) {
-    this.uiOptions = {
-      reload: false,
-    };
+    console.debug('ProjectEditor.ctor');
+    this.projectId = this.route.snapshot.params.id || null;
   }
 
   buildForm() {
@@ -146,7 +146,6 @@ export class ProjectEditorComponent implements OnInit {
                 title: 'Operation Success',
                 message: response,
               };
-              this.uiOptions.reload = true;
             }
           });
         } else {
@@ -158,8 +157,7 @@ export class ProjectEditorComponent implements OnInit {
               };
               this.responseClasses = 'is-danger';
             } else {
-              this.uiOptions.reload = true;
-              this.stateService.go('projects', null, this.uiOptions);
+              this.router.navigate([`/projects/${response.slug}`]);
             }
           });
         }

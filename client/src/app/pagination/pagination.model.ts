@@ -29,11 +29,11 @@ export class Pagination {
     range = 5
   ) {
     this.totalItems = totalItems;
-    this.range = Number(range);
-    this.pageSize = pageSize;
+    this.range = +range || 5;
+    this.pageSize = +pageSize || 10;
     this._totalPages = Math.ceil(this.totalItems / this.pageSize);
     this._state = state;
-    this._currentPage = Number(currentPage);
+    this._currentPage = +currentPage || 1;
     console.debug('Total pages:', this._totalPages);
     console.debug('Page range:', this.range);
 

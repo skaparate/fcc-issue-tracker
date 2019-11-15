@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ProjectsService } from '../projects.service';
-import { Project } from '../project.model';
-import { Pagination } from '../../pagination/pagination.model';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import {
   faProjectDiagram,
   faPlusCircle,
 } from '@fortawesome/free-solid-svg-icons';
+
+import { ProjectsService } from '../projects.service';
+import { Project } from '../project.model';
+import { Pagination } from '../../pagination/pagination.model';
+import { ProjectList } from './project-list.model';
 
 @Component({
   selector: 'project-list',
@@ -24,37 +29,30 @@ export class ProjectListComponent implements OnInit {
 
   constructor(
     private service: ProjectsService,
-    private routerSvc: ActivatedRoute
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.routerSvc.queryParams.subscribe(params => {
-      this.page = params.page;
-      this.pageSize = params.pageSize;
-      this.pageRange = params.pageRange;
-      console.debug('Current page:', this.page);
-      console.debug('Page size:', this.pageSize);
-      console.debug('Page range:', this.pageRange);
-      this.service
-        .list({
+    const response$ = this.route.queryParamMap.pipe(
+      switchMap((params: ParamMap) => {
+        this.page = +params.get('page') || null;
+        this.pageSize = +params.get('pageSize') || null;
+        this.pageRange = +params.get('pageRange') || null;
+        return this.service.list({
           page: this.page,
           pageSize: this.pageSize,
-        })
-        .subscribe(response => {
-          console.debug(
-            'project.list.response:',
-            response,
-            typeof response.data
-          );
-          this.projects = response.data;
-          this.pagination = new Pagination(
-            response.total,
-            '/projects',
-            this.page,
-            this.pageSize,
-            this.pageRange
-          );
         });
+      })
+    );
+    response$.subscribe((data: ProjectList) => {
+      this.projects = data.data;
+      this.pagination = new Pagination(
+        data.total,
+        '/projects',
+        this.page,
+        this.pageSize,
+        this.pageRange
+      );
     });
   }
 

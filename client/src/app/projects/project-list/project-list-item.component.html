@@ -4,6 +4,7 @@
     <h2 class="title is-size-4">
       <a
         title="View project {{ project.name }}"
+        [routerLink]="['/projects', project.slug]"
         >{{ project.name }}</a
       >
     </h2>
@@ -14,6 +15,7 @@
     <a
       title="Edit project {{ project.name }}"
       class="card-footer-item"
+      [routerLink]="['/projects/edit', project._id]"
     >
       <fa-icon [icon]="faEdit"></fa-icon> Modify
     </a>

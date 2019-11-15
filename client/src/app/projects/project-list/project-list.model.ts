@@ -1,6 +1,6 @@
 import { Project } from '../project.model';
 
-export default class ProjectList {
+export class ProjectList {
   data: Project[];
   total: number;
 

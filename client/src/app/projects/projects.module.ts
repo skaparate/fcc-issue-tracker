@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AppCommonModule } from '../app-common.module';
 
 import { ProjectsRoutingModule } from './projects-routing.module';
@@ -28,7 +29,9 @@ import { PaginationComponent } from '../pagination/pagination.component';
     PaginationComponent,
   ],
   imports: [ProjectsRoutingModule, AppCommonModule],
-  providers: [ProjectsService],
+  providers: [
+    ProjectsService
+  ],
   bootstrap: [],
 })
 export class ProjectsModule {}

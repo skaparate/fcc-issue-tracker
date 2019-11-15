@@ -125,16 +125,20 @@
               Submit
             </button>
           </div>
+
           <div class="control">
-            <a
-              class="button is-link is-light"
-              >Cancel</a
+            <button
+              class="button is-link"
+              (click)="randomData()"
+              type="button"
+              title="Fill the fields with random data"
             >
-          </div>
-          <div class="control">
-            <button class="button is-link" (click)="randomData()" type="button">
               Random
             </button>
+          </div>
+
+          <div class="control">
+            <back-button label="Cancel" classes="button is-danger"></back-button>
           </div>
         </div>
 

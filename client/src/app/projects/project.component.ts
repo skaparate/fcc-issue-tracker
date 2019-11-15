@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { Project } from './project.model';
 import { IssuesService } from './issues/issues.service';
 import { Issue } from './issues/issue.model';
@@ -15,10 +17,17 @@ export class ProjectComponent implements OnInit {
 
   constructor(
     private service: ProjectsService,
-    private issueService: IssuesService
-  ) {}
+    private issueService: IssuesService,
+    private route: ActivatedRoute
+  ) {
+    this.projectSlug = this.route.snapshot.params.slug;
+    if (!this.projectSlug) {
+      throw new Error('No project slug provided');
+    }
+  }
 
   ngOnInit() {
+    console.debug('Project slug:', this.projectSlug);
     this.service.bySlug(this.projectSlug).subscribe(response => {
       this.project = response;
       console.debug('Read project:', this.project);

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, NavigationStart, Router } from '@angular/router';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectComponent } from './project.component';
 import { ProjectEditorComponent } from './project-editor.component';
@@ -8,39 +8,34 @@ import { IssueEditorComponent } from './issues/issue-editor.component';
 
 const routes: Routes = [
   {
-    path: '', //'/projects?page&pageSize&pageRange',
+    path: '',
     component: ProjectListComponent,
+  },
+  {
+    path: 'create',
+    component: ProjectEditorComponent,
+  },
+  {
+    path: ':slug',
+    component: ProjectComponent,
     children: [
       {
-        path: 'create',
-        component: ProjectEditorComponent,
+        path: 'issue/create',
+        component: IssueEditorComponent,
       },
       {
-        // The page and pageSize are the params for the issues pagination.
-        path: ':slug?page&pageSize&pageRange',
-        component: ProjectComponent,
-        children: [
-          {
-            path: 'edit/:id',
-            component: ProjectEditorComponent,
-          },
-          {
-            path: 'issue/create',
-            component: IssueEditorComponent,
-          },
-          {
-            path: 'issue/:issueId',
-            component: IssueComponent,
-            children: [
-              {
-                path: 'edit',
-                component: IssueEditorComponent,
-              },
-            ],
-          },
-        ],
+        path: 'issue/edit/:issueId',
+        component: IssueEditorComponent,
+      },
+      {
+        path: 'issue/:issueId',
+        component: IssueComponent,
       },
     ],
+  },
+  {
+    path: 'edit/:id',
+    component: ProjectEditorComponent,
   },
 ];
 

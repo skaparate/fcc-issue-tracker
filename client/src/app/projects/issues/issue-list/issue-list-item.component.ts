@@ -6,8 +6,8 @@ import {
   faTrash,
   faEye,
 } from '@fortawesome/free-solid-svg-icons';
-import { Issue } from './issue.model';
-import { IssuesService } from './issues.service';
+import { Issue } from '../issue.model';
+import { IssuesService } from '../issues.service';
 
 @Component({
   selector: 'issue-list-item',
@@ -93,5 +93,13 @@ export class IssueListItemComponent implements OnInit {
         this.deleteIssue.emit(id);
       }
     });
+  }
+
+  get editUrl() {
+    return [`/projects/${this.projectSlug}/edit/issue`, this.issue._id];
+  }
+
+  get url() {
+    return [`/projects/${this.projectSlug}/issue`, this.issue._id];
   }
 }

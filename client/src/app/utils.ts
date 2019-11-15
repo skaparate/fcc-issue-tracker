@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class Utils {
-  private crypto = null;
+  private charsLen: number;
   private chars = [
     'a',
     'b',
@@ -41,27 +41,18 @@ export class Utils {
     '6',
     '7',
     '8',
-    '9'
+    '9',
   ];
 
   constructor() {
-    let crypto = null;
-
-    if (window.hasOwnProperty('msCrypto')) {
-      crypto = window['msCrypto'];
-    } else {
-      crypto = window.crypto;
-    }
-
-    this.crypto = crypto;
+    this.charsLen = this.chars.length;
   }
 
   randomString(length = 6) {
     const result = [];
-    const charsLen = this.chars.length;
 
-    for (let i = 0; i < 12; i++) {
-      result.push(Math.floor(Math.random() * charsLen));
+    for (let i = 0; i < length; i++) {
+      result.push(this.chars[Math.floor(Math.random() * this.charsLen)]);
     }
 
     return result.join('');

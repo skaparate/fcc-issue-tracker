@@ -10,9 +10,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FormGroup, Validators } from '@angular/forms';
 
-import { Project } from './project.model';
-import { ProjectsService } from './projects.service';
-import { Utils } from '../utils';
+import { Project } from '../project.model';
+import { ProjectsService } from '../projects.service';
+import { Utils } from '../../utils';
 
 @Component({
   selector: 'project-editor',

@@ -3,13 +3,13 @@
     <div class="">
       <h2 class="title">{{ project.name }}</h2>
       <div class="subtitle">@{{ project.owner }}</div>
+      <back-button
+        [linkTo]="['/projects']"
+        classes="button is-success"
+        label="Projects"
+      ></back-button>
       <hr />
-      <router-outlet name="projectView">
-        <div class="content">
-          <p><back-button></back-button></p>
-          <issue-list [projectSlug]="project.slug"></issue-list>
-        </div>
-      </router-outlet>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

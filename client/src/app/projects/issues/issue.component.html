@@ -11,6 +11,10 @@
               <h5 title="Author" class="is-size-6">
                 By @{{ issue.created_by }}
               </h5>
+              <br />
+              <a [routerLink]="returnUrl" class="button is-info">
+                Back
+              </a>
             </div>
           </div>
         </div>
@@ -42,18 +46,12 @@
             </div>
             <ul class="menu-list">
               <li>
-                <a
-
-
-                  >
+                <a [routerLink]="newIssueUrl">
                   <fa-icon [icon]="faPlus"></fa-icon> New Issue
                 </a>
               </li>
               <li>
-                <a
-
-
-                >
+                <a [routerLink]="editIssueUrl">
                   <fa-icon [icon]="faEdit"></fa-icon> Edit
                 </a>
               </li>

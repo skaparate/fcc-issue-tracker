@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { Project } from './project.model';
 import { IssuesService } from './issues/issues.service';

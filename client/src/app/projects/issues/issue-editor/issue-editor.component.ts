@@ -1,9 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { StateService, TransitionOptions } from '@uirouter/angular';
-import { Issue } from './issue.model';
-import { IssuesService } from './issues.service';
-import { Utils } from '../../utils';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   faSignature,
   faParagraph,
@@ -11,6 +8,10 @@ import {
   faExclamationTriangle,
   faCheck,
 } from '@fortawesome/free-solid-svg-icons';
+
+import { Issue } from '../issue.model';
+import { IssuesService } from '../issues.service';
+import { Utils } from '../../../utils';
 
 @Component({
   selector: 'issue-editor',
@@ -28,7 +29,6 @@ export class IssueEditorComponent implements OnInit {
     title: '',
     message: '',
   };
-  private uiOptions: TransitionOptions;
 
   faSignature = faSignature;
   faParagraph = faParagraph;
@@ -37,11 +37,16 @@ export class IssueEditorComponent implements OnInit {
   faCheck = faCheck;
 
   constructor(
-    private stateService: StateService,
+    private router: Router,
+    private route: ActivatedRoute,
     private service: IssuesService,
     private fb: FormBuilder,
     private utils: Utils
-  ) {}
+  ) {
+    console.debug('IssueEditor.ctor');
+    this.projectSlug = this.route.parent.snapshot.params.slug;
+    this.issueId = this.route.snapshot.params.issueId;
+  }
 
   buildForm() {
     this.issueForm = this.fb.group({
@@ -109,6 +114,10 @@ export class IssueEditorComponent implements OnInit {
     return this.issueForm.get('status_text');
   }
 
+  goTo(id: string) {
+    this.router.navigate([`/projects/${this.projectSlug}/issue`, id]);
+  }
+
   onSubmit() {
     this.responseClasses = '';
     this.response = {
@@ -154,17 +163,7 @@ export class IssueEditorComponent implements OnInit {
                 };
                 this.responseClasses = 'is-danger';
               } else {
-                this.uiOptions = {
-                  reload: true,
-                };
-                this.stateService.go(
-                  'projects.project.issue',
-                  {
-                    slug: this.projectSlug,
-                    issueId: newIssue._id,
-                  },
-                  this.uiOptions
-                );
+                this.goTo(this.issue._id);
               }
             });
         } else {
@@ -178,23 +177,12 @@ export class IssueEditorComponent implements OnInit {
                 };
                 this.responseClasses = 'is-danger';
               } else {
-                this.uiOptions = {
-                  reload: true,
-                };
-                this.stateService.go(
-                  'projects.project.issue',
-                  {
-                    slug: this.projectSlug,
-                    issueId: response._id,
-                  },
-                  this.uiOptions
-                );
+                this.goTo(response._id);
               }
             });
         }
       } else {
         console.info('Data has not changed; skipping');
-        this.stateService.go('projects.project', { slug: this.projectSlug });
       }
     } else {
       console.error('Data is not valid');

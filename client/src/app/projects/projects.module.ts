@@ -7,12 +7,12 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectListItemComponent } from './project-list/project-list-item.component';
 import { ProjectComponent } from './project.component';
 import { ProjectsService } from './projects.service';
-import { ProjectEditorComponent } from './project-editor.component';
+import { ProjectEditorComponent } from './project-editor/project-editor.component';
 
-import { IssueListComponent } from './issues/issue-list.component';
-import { IssueListItemComponent } from './issues/issue-list-item.component';
+import { IssueListComponent } from './issues/issue-list/issue-list.component';
+import { IssueListItemComponent } from './issues/issue-list/issue-list-item.component';
 import { IssueComponent } from './issues/issue.component';
-import { IssueEditorComponent } from './issues/issue-editor.component';
+import { IssueEditorComponent } from './issues/issue-editor/issue-editor.component';
 
 import { PaginationComponent } from '../pagination/pagination.component';
 

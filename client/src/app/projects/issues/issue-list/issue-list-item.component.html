@@ -4,11 +4,7 @@
       <div class="columns">
         <div class="column">
           <h3>
-            <a
-
-
-              title="View issue details"
-            >
+            <a title="View issue details" [routerLink]="url">
               <fa-icon [icon]="faEye"></fa-icon> {{ issue.issue_title }}
             </a>
           </h3>
@@ -30,8 +26,8 @@
     <footer class="card-footer">
       <a
         class="card-footer-item"
-
-
+        [routerLink]="editUrl"
+        routerLinkActive="router-link-active"
       >
         <fa-icon [icon]="faEdit"></fa-icon>{{ ' ' }}Edit
       </a>

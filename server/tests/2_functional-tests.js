@@ -253,7 +253,7 @@ suite('Functional Tests', function() {
             }
             assert.equal(res.status, 200);
             assert.isArray(res.body);
-            assert.equal(res.body.length, 3);
+            assert.isAtLeast(res.body.length, 1);
             assert.equal(res.body[0].created_by, 'god');
             done();
           });
@@ -265,7 +265,7 @@ suite('Functional Tests', function() {
           .get('/api/issues/apitest')
           .query({
             created_by: 'morgan',
-            issue_title: 'Issue 2'
+            issue_title: 'Issue 22'
           })
           .end(function(err, res) {
             if (err) {
@@ -274,9 +274,9 @@ suite('Functional Tests', function() {
             console.debug('Body:', res.body);
             assert.equal(res.status, 200);
             assert.isArray(res.body);
-            assert.equal(res.body.length, 1);
+            assert.isAtLeast(res.body.length, 1);
             assert.equal(res.body[0].created_by, 'morgan');
-            assert.equal(res.body[0].issue_title, 'Issue 2');
+            assert.equal(res.body[0].issue_title, 'Issue 22');
             done();
           });
       });
@@ -312,6 +312,9 @@ suite('Functional Tests', function() {
         .post('/api/issues/test')
         .send(expected)
         .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
           assert.equal(res.status, 200);
           const actual = res.body;
           assert.isNotNull(actual._id, 'The id is null');
@@ -322,6 +325,9 @@ suite('Functional Tests', function() {
               _id: actual._id
             })
             .end(function(delErr, del) {
+              if (delErr) {
+                return done(delErr);
+              }
               assert.equal(del.status, 200);
               assert.equal(del.body, `deleted ${actual._id}`);
               done();

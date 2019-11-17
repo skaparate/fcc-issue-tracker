@@ -16,7 +16,7 @@ const issueRouter = require('./issue-router');
 const doRoutes = () => {
   //Index page (static HTML)
   router.route('*').get(function(req, res) {
-    const viewPath = `${req.rootPath}/public/index.html`;
+    const viewPath = `${req.rootPath}/client/dist/index.html`;
     console.debug('root hit:', viewPath);
     res.sendFile(viewPath);
   });

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "NODE_ENV=test node server.js",
-    "watch": "nodemon ./server.js"
+    "watch": "nodemon ./server.js",
+    "build": "yarn install && cd ./client && yarn install && ng build --prod && cd ../ && mkdir -p ./public && cp -r client/dist/* ./public"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
@@ -34,5 +35,8 @@
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^1.19.4"
+  },
+  "engines": {
+    "node": "12.x"
   }
 }

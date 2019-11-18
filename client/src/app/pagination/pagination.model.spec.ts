@@ -1,4 +1,4 @@
-import Pagination from './pagination.model';
+import { Pagination } from './pagination.model';
 
 describe('PaginationModel', () => {
   it('Page list should contain the expected elements', () => {

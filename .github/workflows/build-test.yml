@@ -20,10 +20,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: npm test rest api
         run: |
-          cd server/
           npm install
           npm test
-          cd ../
           env:
             CI: true
             DB: ${{secrets.DB_URL}}

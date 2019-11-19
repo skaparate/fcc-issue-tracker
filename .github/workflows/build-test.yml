@@ -1,9 +1,6 @@
 name: Build and Test
 
-on:
-  push:
-    tags:
-      - v0.*
+on: [push]
 
 jobs:
   builds:

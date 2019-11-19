@@ -19,12 +19,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: npm test rest api
-        with:
-          DB_USER: ${{secrets.DB_USER}}
-          DB_PASS: ${{secrets.DB_PASS}}
-          DB_NAME: ${{secrets.DB_NAME}}
         run: |
           npm install
+          export DB_USER="${{secrets.DB_USER}}"
+          export DB_PASS="${{secrets.DB_PASS}}"
+          export DB_NAME="${{secrets.DB_NAME}}"
           npm test
           env:
             CI: true

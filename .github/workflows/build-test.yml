@@ -24,5 +24,6 @@ jobs:
           npm test
           env:
             CI: true
-            DB: ${{secrets.DB_URL}}
+            DB_USER: ${{secrets.DB_USER}}
+            DB_PASS: ${{secrets.DB_PASS}}
             DB_NAME: fcc_issue_tracker

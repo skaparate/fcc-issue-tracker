@@ -28,9 +28,7 @@ jobs:
           ng build --prod
           cd ../
         run: |
-          cd server/
           npm install
-          cp ../client/dist/* ./public
-          cd ../
+          cp client/dist/* ./public
           env:
             CI: true

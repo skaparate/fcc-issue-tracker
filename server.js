@@ -74,7 +74,7 @@ MongoClient.connect(err => {
           runner.run();
           runner.on('done', () => {
             console.debug('Tests finished');
-            //process.exit(0);
+            process.exit(0);
           });
         } catch (e) {
           const error = e;

@@ -52,7 +52,7 @@ MongoClient.connect(err => {
   const port = process.env.PORT || 3100;
 
   //Start our server and tests!
-  app.listen(port, function() {
+  const server = app.listen(port, function() {
     console.log(`Listening on port ${port}`);
     db.collection('projects').createIndex(
       {
@@ -70,6 +70,10 @@ MongoClient.connect(err => {
       setTimeout(function() {
         try {
           runner.run();
+          runner.on('done', () => {
+            console.debug('Tests finished');
+            process.exit(0);
+          });
         } catch (e) {
           const error = e;
           console.log('Tests are not valid:');
@@ -77,7 +81,6 @@ MongoClient.connect(err => {
         }
       }, 3500);
     }
-    //db.close();
   });
 });
 

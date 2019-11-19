@@ -1,0 +1,36 @@
+name: Glitch Build
+
+on:
+  pull_request:
+    branches:
+      - glitch
+
+jobs:
+  builds:
+    runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+    
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: build client
+        run: |
+          cd ../client
+          npm install
+          ng build --prod
+          cd ../
+        run: |
+          cd server/
+          npm install
+          cp ../client/dist/* ./public
+          cd ../
+          env:
+            CI: true

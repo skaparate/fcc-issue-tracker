@@ -26,4 +26,4 @@ jobs:
             CI: true
             DB_USER: ${{secrets.DB_USER}}
             DB_PASS: ${{secrets.DB_PASS}}
-            DB_NAME: fcc_issue_tracker
+            DB_NAME: ${{secrets.DB_NAME}}

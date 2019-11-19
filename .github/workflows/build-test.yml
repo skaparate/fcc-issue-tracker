@@ -21,13 +21,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: install yarn
+      - name: npm test rest api
         run: |
-          npm i -g yarn
-      - name: npm install, build, and test
-        run: |
-          yarn install
-          yarn run build --if-present
-          yarn test
+          cd server/
+          npm install
+          npm test
+          cd ../
           env:
             CI: true
+            DB: ${{DB_URL}}
+            DB_NAME: fcc_issue_tracker

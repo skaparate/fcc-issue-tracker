@@ -5,6 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
+console.log(`Database name: ${process.env.DB_NAME}`);
 const mongoUri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0-9m0ms.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const MongoClient = new require('mongodb').MongoClient(mongoUri, {
   useUnifiedTopology: true,

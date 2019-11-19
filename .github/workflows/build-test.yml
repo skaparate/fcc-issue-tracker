@@ -26,5 +26,5 @@ jobs:
           cd ../
           env:
             CI: true
-            DB: ${{DB_URL}}
+            DB: ${{secrets.DB_URL}}
             DB_NAME: fcc_issue_tracker

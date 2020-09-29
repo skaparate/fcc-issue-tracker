@@ -10,6 +10,7 @@ const mongoUri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cl
 const MongoClient = new require('mongodb').MongoClient(mongoUri, {
   useUnifiedTopology: true,
 });
+const corsDelegate = require('./cors-config');
 
 const apiRoutes = require('./routes/api.js');
 const fccTestingRoutes = require('./routes/fcctesting.js');
@@ -19,7 +20,7 @@ const app = express();
 
 app.use(express.static(process.cwd() + '/public'));
 
-app.use(cors({ origin: '*' })); //For FCC testing purposes only
+app.use(cors(corsDelegate)); //For FCC testing purposes only
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -87,3 +88,4 @@ MongoClient.connect(err => {
 });
 
 module.exports = app; //for testing
+

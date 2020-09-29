@@ -25,6 +25,4 @@ jobs:
           export DB_PASS="${{secrets.DB_PASS}}"
           export DB_NAME="${{secrets.DB_NAME}}"
           npm test
-          env:
-            CI: true
             
